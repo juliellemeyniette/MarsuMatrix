@@ -20,9 +20,9 @@ class MMatrix
 public:
     // Constructor opening the file containing the matrix
     // if path exists else creating one.
-    MMatrix(std::string path, size_t nrow, size_t ncol, bool verbose = false);
+    MMatrix(std::string path, size_t nrow, size_t ncol, bool verbose = true);
     // Constructor for a multidimensional matrix / R-style array
-    MMatrix(std::string path, std::vector<size_t> dims, bool verbose = false);
+    MMatrix(std::string path, std::vector<size_t> dims, bool verbose = true);
     // Destructor flushing changes to disk before unmapping
     ~MMatrix();
 
@@ -35,7 +35,7 @@ public:
     T *data() const;
     bool verbose() const;
 
-    // IN BASE 0 :
+    // IN BASE 0 , FOR 2 DIMS :
     T &operator[](size_t ind);
     const T &operator[](size_t ind) const;
     T &operator()(size_t i, size_t j);
@@ -45,6 +45,12 @@ public:
     template <typename U>
     std::vector<U> sum() const;
 
+    template <typename intVec>
+    T &operator()(intVec index);
+    template <typename intVec>
+    const T &operator()(intVec index) const;
+    template <typename intVec>
+    T &at(intVec index) const;
 
 protected:
     // Number of columns of the matrix, (base 1).

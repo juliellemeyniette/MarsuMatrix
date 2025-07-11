@@ -35,7 +35,7 @@ Rcpp::NumericMatrix MMatrixToNumericMatrix(SEXP pM, std::string datatype) {
     return R;
 
   } else if (datatype == "int") {
-    // find a way to return an IntegerMatrix would be cleaner !
+    // TODO : find a way to return an IntegerMatrix would be cleaner !
 
     Rcpp::XPtr<MMatrix<int>> instanc(pM);
     unsigned int ncol = instanc->ncol();

@@ -15,10 +15,6 @@ read.mmatrix <- function(basename) {
         file = basename
     }
     dim= as.integer(c(parsed_desc$ncol, parsed_desc$nrow))
-    # ASK YOURSELF !!!! est-ce que je veux le nom du fichier ou le path complet ????
-    # si path, est-ce que je ne préfèrerais pas le générer en R ?
-    # ou au moins vérifier que cohérent avec desc file ? 
-    # en même temps mon desc file va avoir 
     # I chose to send basename (and not file) bcos a check was made on it
     ptr <- restore_mmatrix_(datatype, basename, dim[2], dim[1])
     if (isnullptr(ptr)) stop("Something went very wrong while mapping the mmatrix")

@@ -191,6 +191,31 @@ const T &MMatrix<T>::operator()(size_t i, size_t j) const
 {
     return data_ptr_[(j * nrow_) + i];
 }
+// FUTURE OVERLOAD FOR ARRAY accessing with ()
+template <typename T>
+template <typename intVec>
+T &MMatrix<T>::operator()(intVec index) {
+// thsi was done with RV's code
+    int k = index[0];
+    int l = 1;
+    for(size_t i = 1; i < dim_.size(); i++) {
+      l *= dim_[i-1];
+      k += l * index[i];
+    }
+    return data_ptr_[k];
+}
+template <typename T>
+template <typename intVec>
+const T &MMatrix<T>::operator()(intVec index) const {
+    int k = index[0];
+    int l = 1;
+    for(size_t i = 1; i < dim_.size(); i++) {
+      l *= dim_[i-1];
+      k += l * index[i];
+    }
+    return data_ptr_[k];
+}
+
 template <typename T>
 bool MMatrix<T>::verbose() const
 {
@@ -211,6 +236,7 @@ T &MMatrix<T>::at(size_t ind) const
 template <typename T>
 T &MMatrix<T>::at(size_t i, size_t j) const
 {
+    // so will fail if more than 2 dims
     if (!ncol_ || !nrow_ || i > nrow_ || j > ncol_ )
     {
         std::string errMsg = "Matrix indices out of range, only goes up to "
@@ -219,6 +245,39 @@ T &MMatrix<T>::at(size_t i, size_t j) const
         throw std::out_of_range(errMsg);
     }
     return data_ptr_[(j * nrow_) + i];
+}
+
+template <typename T>
+template <typename intVec>
+T &MMatrix<T>::at(intVec index) const {
+    std::cout << "Using the at(intVec index) :\n";
+    size_t D = dim_.size();
+    if (index.size() != dim_.size()) {
+        throw std::invalid_argument("Index given does not match matrix dimensions.");
+    }
+    // should also do a check with this.size() ?
+
+    // prepare offset values
+    std::vector<size_t> Le; // will be of size D at the end normally
+    // but if i do Le(D) fails to push_back <- there should be other ways but i'm tired
+    size_t le = 1; // 1 pas 0 parce que neutre pour multiplication !!
+    Le.push_back(le);
+    // TO DEBUG 
+    std::cout << "Le[0] : " << Le[0] << "\n";
+    // TODO : collapse the 2 loops into one 
+    for(size_t i = 0; i < D; i++) {
+      le *= dim_[i];
+      Le.push_back(le);
+      std::cout << Le[i] << ", ";
+    }
+
+    size_t final_index = 0;
+    // D - 1 ou D ?
+    for(size_t j = 0; j < D; j++) {
+        final_index += index[j] * Le[j];
+    }
+    std::cout << "final index :" << final_index << "\n";
+    return data_ptr_[final_index];
 }
 
 // UNSAFE, calling ()

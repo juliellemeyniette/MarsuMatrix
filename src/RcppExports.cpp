@@ -10,6 +10,19 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
+// MMatrixAccess
+Rcpp::NumericVector MMatrixAccess(SEXP pM, std::string datatype, Rcpp::List L);
+RcppExport SEXP _MarsuMatrix_MMatrixAccess(SEXP pMSEXP, SEXP datatypeSEXP, SEXP LSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type pM(pMSEXP);
+    Rcpp::traits::input_parameter< std::string >::type datatype(datatypeSEXP);
+    Rcpp::traits::input_parameter< Rcpp::List >::type L(LSEXP);
+    rcpp_result_gen = Rcpp::wrap(MMatrixAccess(pM, datatype, L));
+    return rcpp_result_gen;
+END_RCPP
+}
 // MMatrixToNumericMatrix
 Rcpp::NumericMatrix MMatrixToNumericMatrix(SEXP pM, std::string datatype);
 RcppExport SEXP _MarsuMatrix_MMatrixToNumericMatrix(SEXP pMSEXP, SEXP datatypeSEXP) {
@@ -73,6 +86,7 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_MarsuMatrix_MMatrixAccess", (DL_FUNC) &_MarsuMatrix_MMatrixAccess, 3},
     {"_MarsuMatrix_MMatrixToNumericMatrix", (DL_FUNC) &_MarsuMatrix_MMatrixToNumericMatrix, 2},
     {"_MarsuMatrix_isnullptr", (DL_FUNC) &_MarsuMatrix_isnullptr, 1},
     {"_MarsuMatrix_array_access", (DL_FUNC) &_MarsuMatrix_array_access, 2},
