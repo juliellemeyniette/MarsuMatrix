@@ -10,18 +10,9 @@
 #include "mio.hpp"
 #include "MMatrix.h"
 
-
-// Constructor opening the file containing the matrix if path exists, else
-// creating one.
+// Helper function for the c°
 template <typename T>
-MMatrix<T>::MMatrix(std::string path, size_t nrow, size_t ncol, bool verbose)
-    : ncol_(ncol), nrow_(nrow), path_(path), verbose_(verbose)
-{
-    size_ = ncol * nrow;
-    if (!size_) throw std::invalid_argument("Ncol or Nrow is equal to 0, cannot map an empty file !");
-    size_t matrix_size = size_ * sizeof(T);
-
-
+void MMatrix<T>::FileHandler(std::string path, size_t matrix_size, bool verbose) {
   /* FIRST : check if file exists, if it does not, create one of the good size*/
     const char * path_c = path.c_str();
     FILE *check = fopen(path_c, "rb"); // open en readonly 
@@ -56,6 +47,7 @@ MMatrix<T>::MMatrix(std::string path, size_t nrow, size_t ncol, bool verbose)
             throw std::runtime_error("Failed to analyse file: " + path);
         }
         off_t file_size = buf.st_size;
+        // TODO : TOTHINK ! could there be times where you want to mmap and open only a part of the file ? without rm-Ing the rest ?
         if (file_size != matrix_size) {
             if (verbose_) {
                 std::cout << "Resizing file from " << file_size << " to " << matrix_size << " bytes." << std::endl;
@@ -71,8 +63,9 @@ MMatrix<T>::MMatrix(std::string path, size_t nrow, size_t ncol, bool verbose)
                 resize_file.put('\0');
                 resize_file.close();
             } else {
-                // TRIM IT DOWN !!
+                // trim it down
                 if (truncate(path_c, matrix_size) != 0) {
+                    // TODO : add a user confirmation that this is what they want !
                     throw std::runtime_error("Failed to truncate file: " + path);
                 }
             }
@@ -94,6 +87,40 @@ MMatrix<T>::MMatrix(std::string path, size_t nrow, size_t ncol, bool verbose)
     }
 
     data_ptr_ = reinterpret_cast<T *>(matrix_file_.data());
+}
+
+// Constructor HARDCODED FOR A 2 DIM MMATRIX ! opening the file containing the matrix if path exists, also resizing it accordingly, else
+// creating one. 
+// TODO : check if logical sense for nrow first and ncol last ?
+template <typename T>
+MMatrix<T>::MMatrix(std::string path, size_t nrow, size_t ncol, bool verbose)
+    : ncol_(ncol), nrow_(nrow), path_(path), verbose_(verbose), dim_{nrow, ncol}
+{
+    size_ = ncol * nrow;
+    if (!size_) throw std::invalid_argument("Ncol or Nrow is equal to 0, cannot map an empty file !");
+    size_t matrix_size = size_ * sizeof(T);
+    FileHandler(path, matrix_size, verbose);
+}
+
+
+template <typename T>
+MMatrix<T>::MMatrix(std::string path, std::vector<size_t> dims, bool verbose) 
+// ! if it is not a matrix (dim.size != 2) ncol & nrow ARE NOT USED !!!
+: ncol_(0), nrow_(0), path_(path), dim_{dims}, verbose_(verbose)
+{
+    size_ = 1;
+    for (size_t d : dims) {
+        size_ *= d;
+    }
+    if (!size_) throw std::invalid_argument("One of your dimension is equal to 0, cannot map an empty file !");
+    size_t matrix_size = size_ * sizeof(T);
+
+    if (dim_.size() == 2) {
+        if (verbose_ == true) std::cout << "You are creating a matrix (2dims) with the array style c°.\n";
+        nrow_ = dim_[0];
+        ncol_ = dim_[1];
+    }
+    FileHandler(path, matrix_size, verbose);
 }
 
 // Destructor flushing changes to disk before unmapping
@@ -135,6 +162,10 @@ template <typename T>
 T *MMatrix<T>::data() const
 {
     return data_ptr_;
+}
+template <typename T>
+std::vector<size_t> MMatrix<T>::dim() const {
+    return dim_;
 }
 
 // Operator [] gives back the data at index, UNSAFE.
@@ -180,7 +211,7 @@ T &MMatrix<T>::at(size_t ind) const
 template <typename T>
 T &MMatrix<T>::at(size_t i, size_t j) const
 {
-    if (i > nrow_ || j > ncol_)
+    if (!ncol_ || !nrow_ || i > nrow_ || j > ncol_ )
     {
         std::string errMsg = "Matrix indices out of range, only goes up to "
             + std::to_string(ncol_) + " columns and " + std::to_string(nrow_)

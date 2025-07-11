@@ -1,4 +1,5 @@
-#' Converting snp matrices to R matrices
+#' Converting memory mapped matrices (on disk) 
+#' to R matrices (in memory)
 #' 
 #' @name as.matrix.mmatrix
 #'
@@ -10,3 +11,5 @@ as.matrix.mmatrix <- function(x) {
     return(MMatrixToNumericMatrix(x@ptr, x@datatype))
   }
 }
+
+#from what I understand, no need to setGeneric ?

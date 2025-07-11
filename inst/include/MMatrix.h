@@ -21,12 +21,17 @@ public:
     // Constructor opening the file containing the matrix
     // if path exists else creating one.
     MMatrix(std::string path, size_t nrow, size_t ncol, bool verbose = false);
+    // Constructor for a multidimensional matrix / R-style array
+    MMatrix(std::string path, std::vector<size_t> dims, bool verbose = false);
     // Destructor flushing changes to disk before unmapping
     ~MMatrix();
+
+    void FileHandler(std::string path, size_t matrix_size, bool verbose);
 
     size_t nrow() const;
     size_t ncol() const;
     std::string path() const;
+    std::vector<size_t> dim() const;
     T *data() const;
     bool verbose() const;
 
@@ -43,12 +48,20 @@ public:
 
 protected:
     // Number of columns of the matrix, (base 1).
+    // hardcoded to simplify the "matrix" use
+    // but equivalent to dim[1]
     size_t ncol_;
     // Number of rows of the matrix (base 1).
+    // hardcoded to simplify the "matrix" use
+    // but equivalent to dim[0]
     size_t nrow_;
+    // product of all dimensions 
+    // (not mapped size as this also needs sizeof(datatype))
     size_t size_;
-    // TODO : add R-style array !!
-    //std::vector dim;
+    // A vector containing all the dimension sizes
+    // to mimic an R-style array
+    // TO THINK : should dim_ be a template ? 
+    std::vector<size_t> dim_;
     // (Relative ?) path of the file containing the matrix
     std::string path_;
     // Mio object handling the matrix.

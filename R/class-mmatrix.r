@@ -21,23 +21,6 @@ setMethod("show", "mmatrix",
   }
 )
 
-#' @export
-setGeneric("restore", function(object) standardGeneric("restore"))
-
-#' @export
-setMethod("restore", "mmatrix",
-  function(object) {
-    if(!isnullptr(object@ptr)) {
-      # maybe a stop is excessive
-      stop("This mmatrix doesn't need to be restored !")
-    } else {
-      object@ptr = restore_mmatrix_(object@datatype, object@file, object@dim[2], object@dim[1])
-    }
-    # this retunr is very important else object is just a local copy !!
-    object
-  }
-)
-
 # # TODO : MAYBE add an param excpected type ! (not always numeric ?)
 # #' @export
 # setGeneric("as.matrix", function(object) standardGeneric("as.matrix"))
@@ -52,20 +35,3 @@ setMethod("restore", "mmatrix",
 #     }
 #   }
 # )
-
-
-#' @export
-setGeneric("add.descriptor.file", function(object) standardGeneric("add.descriptor.file"))
-
-#' @export
-setMethod("add.descriptor.file", "mmatrix",
-function(object) {
-  # RV's function : mk.descriptor.file <- function(path, nrow, ncol, type)
-  mk.descriptor.file(object@file, object@dim[1], object@dim[2], object@datatype)
-})
-
-
-# // TODO : faire une version capable de restore depuis un .desc !! Ce serait malin :)
-# // .desc lu côté R et envoyé a restore_mmatrix => une fonction load_mmatrix ?
-
-# // void load_mmatrix(std::string desc_file) {}

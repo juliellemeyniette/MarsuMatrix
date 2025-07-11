@@ -1,18 +1,24 @@
 Package: MarsuMatrix
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Basic handling of multidimensional memory-mapped matrix
 Version: 0.1.0
 Authors@R: c(
-    person(
-      "Jane", "Doe",
-      email = "jane@example.com",
-      role = c("aut", "cre")
-    )
-  )
-Description: More about what it does (maybe more than one line).
-    Continuation lines should be indented.
-License: What license is it under?
+    person("Hervé", "Perdry", 
+    email = "herve.perdry@pourcompiler.com", 
+    role = c("aut", "cre")),
+    person("Juliette", "Meyniel",
+    email = "juliette.meyniel@pourcompiler.com", 
+    role = "aut"))
+Description: Continuation of the MMatrix private package,
+    originally only a C++ library for making memory mapped templated matrix. 
+    MarsuMatrix is now a fully fleshed R package, with an R interface 
+    and a R class (mmatrix). Its goal is to use a file with memory mapping
+    to keep its data on disk, and read it 
+    as a basic Matrix (2 dims) 
+    or a R-style array (with multiple dimension)
+License: MIT (for mio I think)
 Encoding: UTF-8
 LazyData: true
 Imports: Rcpp (>= 1.0.11)
 LinkingTo: Rcpp
+RoxygenNote: 7.3.2
