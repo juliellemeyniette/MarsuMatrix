@@ -15,7 +15,7 @@ setMethod("show", "mmatrix",
       cat("A mmatrix with a broken external ptr ! Try using restore()\n")
     } else {
       cat("A mmatrix with", nrow(object), "rows and", ncol(object), "cols\n")
-      cat("containing datas of type : ", object@datatype, "\n")
+      cat("containing data of type : ", object@datatype, "\n")
       cat("File:", object@file, "\n")
     }
   }

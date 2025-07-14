@@ -26,56 +26,99 @@ public:
     // Destructor flushing changes to disk before unmapping
     ~MMatrix();
 
+protected:
+    // this is a function called by the constructor to create a file of the good size 
+    // check if it exists / resize it (??)
     void FileHandler(std::string path, size_t matrix_size, bool verbose);
 
+public:
+    // Getters
     size_t nrow() const;
     size_t ncol() const;
+    size_t size() const;
+
     std::string path() const;
     std::vector<size_t> dim() const;
     T *data() const;
     bool verbose() const;
 
-    // IN BASE 0 , FOR 2 DIMS :
-    T &operator[](size_t ind);
-    const T &operator[](size_t ind) const;
-    T &operator()(size_t i, size_t j);
-    const T &operator()(size_t i, size_t j) const;
-    T &at(size_t ind) const;
-    T &at(size_t i, size_t j) const;
+    // a function for tests
     template <typename U>
     std::vector<U> sum() const;
 
+    // operator[] and at() for accessing like a vector
+    T & operator[](size_t ind);
+    const T & operator[](size_t ind) const;
+
+    T & at(size_t ind) const;
+
+    // operator() and at() for accessing as matrix
+    T & operator()(size_t i, size_t j);
+    const T & operator()(size_t i, size_t j) const;
+
+    T & at(size_t i, size_t j) const;
+
+    // operator() and at() for accessing as array
     template <typename intVec>
-    T &operator()(intVec index);
+    T & operator()(const intVec & index);
+
     template <typename intVec>
-    const T &operator()(intVec index) const;
+    const T & operator()(const intVec & index) const;
+
     template <typename intVec>
-    T &at(intVec index) const;
+    T & at(const intVec & index) const;
+
+    // setting values
+    template <typename intVec, typename Tvec>
+    void set_values_matrix(const intVec & I, const intVec & J, Tvec & values);
+ 
+    // extraction for object seen as a vector
+    template <typename intVec, typename targetVec>
+    void extract_vector(const intVec & I, targetVec & target) const;
+
+    // extraction for matrices (targetVec can be MMatrix<T> !)
+    template <typename intVec, typename targetVec>
+    void extract_matrix(const intVec & I, const intVec & J, targetVec & target) const;
+
+    // extraction for arrays
+    template <typename intVec, typename targetVec>
+    void extract_array(const std::vector<intVec> & I, targetVec & target) const;
+
+private:
+    // auxiliary function for extract_array
+    template<typename intVec>
+    void indices(const std::vector<intVec> & I, const std::vector<size_t> & Le, size_t d, std::vector<size_t> & ind);
 
 protected:
     // Number of columns of the matrix, (base 1).
     // hardcoded to simplify the "matrix" use
     // but equivalent to dim[1]
     size_t ncol_;
+
     // Number of rows of the matrix (base 1).
     // hardcoded to simplify the "matrix" use
     // but equivalent to dim[0]
     size_t nrow_;
+
     // product of all dimensions 
-    // (not mapped size as this also needs sizeof(datatype))
+    // (not mapped size in bytes as this also needs sizeof(datatype))
     size_t size_;
+
     // A vector containing all the dimension sizes
     // to mimic an R-style array
     // TO THINK : should dim_ be a template ? 
     std::vector<size_t> dim_;
+
     // (Relative ?) path of the file containing the matrix
     std::string path_;
+
     // Mio object handling the matrix.
     mio::mmap_sink matrix_file_;
+
     // type T pointer to the first byte of data in matrix_file_
     T *data_ptr_;
+
     // Boolean used to silence the class 
-    //(useful when doing multithreading for example)
     bool verbose_;
 };
 

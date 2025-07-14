@@ -23,16 +23,70 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// MMatrixToNumericMatrix
-Rcpp::NumericMatrix MMatrixToNumericMatrix(SEXP pM, std::string datatype);
-RcppExport SEXP _MarsuMatrix_MMatrixToNumericMatrix(SEXP pMSEXP, SEXP datatypeSEXP) {
+// MMatrixToRMatrix
+SEXP MMatrixToRMatrix(SEXP pM, std::string datatype);
+RcppExport SEXP _MarsuMatrix_MMatrixToRMatrix(SEXP pMSEXP, SEXP datatypeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type pM(pMSEXP);
     Rcpp::traits::input_parameter< std::string >::type datatype(datatypeSEXP);
-    rcpp_result_gen = Rcpp::wrap(MMatrixToNumericMatrix(pM, datatype));
+    rcpp_result_gen = Rcpp::wrap(MMatrixToRMatrix(pM, datatype));
     return rcpp_result_gen;
+END_RCPP
+}
+// extract_mmatrix_to_R
+void extract_mmatrix_to_R(SEXP pM, std::string datatype, Rcpp::IntegerVector I, Rcpp::IntegerVector J, SEXP target);
+RcppExport SEXP _MarsuMatrix_extract_mmatrix_to_R(SEXP pMSEXP, SEXP datatypeSEXP, SEXP ISEXP, SEXP JSEXP, SEXP targetSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type pM(pMSEXP);
+    Rcpp::traits::input_parameter< std::string >::type datatype(datatypeSEXP);
+    Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type I(ISEXP);
+    Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type J(JSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type target(targetSEXP);
+    extract_mmatrix_to_R(pM, datatype, I, J, target);
+    return R_NilValue;
+END_RCPP
+}
+// extract_mmatrix_to_mmatrix
+void extract_mmatrix_to_mmatrix(SEXP pM, std::string datatype, Rcpp::IntegerVector I, Rcpp::IntegerVector J, SEXP target);
+RcppExport SEXP _MarsuMatrix_extract_mmatrix_to_mmatrix(SEXP pMSEXP, SEXP datatypeSEXP, SEXP ISEXP, SEXP JSEXP, SEXP targetSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type pM(pMSEXP);
+    Rcpp::traits::input_parameter< std::string >::type datatype(datatypeSEXP);
+    Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type I(ISEXP);
+    Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type J(JSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type target(targetSEXP);
+    extract_mmatrix_to_mmatrix(pM, datatype, I, J, target);
+    return R_NilValue;
+END_RCPP
+}
+// extract_mvector_to_R
+void extract_mvector_to_R(SEXP pM, std::string datatype, Rcpp::IntegerVector I, SEXP target);
+RcppExport SEXP _MarsuMatrix_extract_mvector_to_R(SEXP pMSEXP, SEXP datatypeSEXP, SEXP ISEXP, SEXP targetSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type pM(pMSEXP);
+    Rcpp::traits::input_parameter< std::string >::type datatype(datatypeSEXP);
+    Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type I(ISEXP);
+    Rcpp::traits::input_parameter< SEXP >::type target(targetSEXP);
+    extract_mvector_to_R(pM, datatype, I, target);
+    return R_NilValue;
+END_RCPP
+}
+// extract_mvector_to_mvector
+void extract_mvector_to_mvector(SEXP pM, std::string datatype, Rcpp::IntegerVector I, SEXP target);
+RcppExport SEXP _MarsuMatrix_extract_mvector_to_mvector(SEXP pMSEXP, SEXP datatypeSEXP, SEXP ISEXP, SEXP targetSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type pM(pMSEXP);
+    Rcpp::traits::input_parameter< std::string >::type datatype(datatypeSEXP);
+    Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type I(ISEXP);
+    Rcpp::traits::input_parameter< SEXP >::type target(targetSEXP);
+    extract_mvector_to_mvector(pM, datatype, I, target);
+    return R_NilValue;
 END_RCPP
 }
 // isnullptr
@@ -46,33 +100,9 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// array_access
-double array_access(NumericVector A, IntegerVector I);
-RcppExport SEXP _MarsuMatrix_array_access(SEXP ASEXP, SEXP ISEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type A(ASEXP);
-    Rcpp::traits::input_parameter< IntegerVector >::type I(ISEXP);
-    rcpp_result_gen = Rcpp::wrap(array_access(A, I));
-    return rcpp_result_gen;
-END_RCPP
-}
-// array_extract
-NumericVector array_extract(NumericVector A, List L);
-RcppExport SEXP _MarsuMatrix_array_extract(SEXP ASEXP, SEXP LSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type A(ASEXP);
-    Rcpp::traits::input_parameter< List >::type L(LSEXP);
-    rcpp_result_gen = Rcpp::wrap(array_extract(A, L));
-    return rcpp_result_gen;
-END_RCPP
-}
-// restore_mmatrix_
-SEXP restore_mmatrix_(std::string datatype, std::string file, size_t nrow, size_t ncol);
-RcppExport SEXP _MarsuMatrix_restore_mmatrix_(SEXP datatypeSEXP, SEXP fileSEXP, SEXP nrowSEXP, SEXP ncolSEXP) {
+// link_mmatrix
+SEXP link_mmatrix(std::string datatype, std::string file, size_t nrow, size_t ncol);
+RcppExport SEXP _MarsuMatrix_link_mmatrix(SEXP datatypeSEXP, SEXP fileSEXP, SEXP nrowSEXP, SEXP ncolSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -80,18 +110,35 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< std::string >::type file(fileSEXP);
     Rcpp::traits::input_parameter< size_t >::type nrow(nrowSEXP);
     Rcpp::traits::input_parameter< size_t >::type ncol(ncolSEXP);
-    rcpp_result_gen = Rcpp::wrap(restore_mmatrix_(datatype, file, nrow, ncol));
+    rcpp_result_gen = Rcpp::wrap(link_mmatrix(datatype, file, nrow, ncol));
     return rcpp_result_gen;
+END_RCPP
+}
+// set_values_mmatrix
+void set_values_mmatrix(SEXP pM, std::string datatype, Rcpp::IntegerVector I, Rcpp::IntegerVector J, SEXP values);
+RcppExport SEXP _MarsuMatrix_set_values_mmatrix(SEXP pMSEXP, SEXP datatypeSEXP, SEXP ISEXP, SEXP JSEXP, SEXP valuesSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type pM(pMSEXP);
+    Rcpp::traits::input_parameter< std::string >::type datatype(datatypeSEXP);
+    Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type I(ISEXP);
+    Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type J(JSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type values(valuesSEXP);
+    set_values_mmatrix(pM, datatype, I, J, values);
+    return R_NilValue;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
     {"_MarsuMatrix_MMatrixAccess", (DL_FUNC) &_MarsuMatrix_MMatrixAccess, 3},
-    {"_MarsuMatrix_MMatrixToNumericMatrix", (DL_FUNC) &_MarsuMatrix_MMatrixToNumericMatrix, 2},
+    {"_MarsuMatrix_MMatrixToRMatrix", (DL_FUNC) &_MarsuMatrix_MMatrixToRMatrix, 2},
+    {"_MarsuMatrix_extract_mmatrix_to_R", (DL_FUNC) &_MarsuMatrix_extract_mmatrix_to_R, 5},
+    {"_MarsuMatrix_extract_mmatrix_to_mmatrix", (DL_FUNC) &_MarsuMatrix_extract_mmatrix_to_mmatrix, 5},
+    {"_MarsuMatrix_extract_mvector_to_R", (DL_FUNC) &_MarsuMatrix_extract_mvector_to_R, 4},
+    {"_MarsuMatrix_extract_mvector_to_mvector", (DL_FUNC) &_MarsuMatrix_extract_mvector_to_mvector, 4},
     {"_MarsuMatrix_isnullptr", (DL_FUNC) &_MarsuMatrix_isnullptr, 1},
-    {"_MarsuMatrix_array_access", (DL_FUNC) &_MarsuMatrix_array_access, 2},
-    {"_MarsuMatrix_array_extract", (DL_FUNC) &_MarsuMatrix_array_extract, 2},
-    {"_MarsuMatrix_restore_mmatrix_", (DL_FUNC) &_MarsuMatrix_restore_mmatrix_, 4},
+    {"_MarsuMatrix_link_mmatrix", (DL_FUNC) &_MarsuMatrix_link_mmatrix, 4},
+    {"_MarsuMatrix_set_values_mmatrix", (DL_FUNC) &_MarsuMatrix_set_values_mmatrix, 5},
     {NULL, NULL, 0}
 };
 

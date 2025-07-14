@@ -6,10 +6,8 @@
 #' @exportS3Method as.matrix mmatrix
 as.matrix.mmatrix <- function(x) {
   if(isnullptr(x@ptr)) {
-    stop("This mmatrix has a broken ptr, try reloading it with restore()")
+    stop("This mmatrix has a broken ptr, try re-mapping it with restore()")
   } else {
-    return(MMatrixToNumericMatrix(x@ptr, x@datatype))
+    return(MMatrixToRMatrix(x@ptr, x@datatype))
   }
 }
-
-#from what I understand, no need to setGeneric ?

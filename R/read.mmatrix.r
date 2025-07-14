@@ -8,15 +8,15 @@ read.mmatrix <- function(basename) {
     parsed_desc <- eval(parse(text = paste( c( "(", z[ -(1:3) ] ), collapse = " " )))
     # TODO : think of array, is keeping the dim like that a good idea ?
 
-    datatype = parsed_desc$type
-    file = parsed_desc$file
+    datatype <- parsed_desc$type
+    file <- parsed_desc$file
     if (file != basename) {
         #stop("wtf \n file in f° :", basename, "\n file in descriptor file : ", file)
         file = basename
     }
-    dim= as.integer(c(parsed_desc$ncol, parsed_desc$nrow))
+    dim <- as.integer(c(parsed_desc$ncol, parsed_desc$nrow))
     # I chose to send basename (and not file) bcos a check was made on it
-    ptr <- restore_mmatrix_(datatype, basename, dim[2], dim[1])
-    if (isnullptr(ptr)) stop("Something went very wrong while mapping the mmatrix")
+    ptr <- link_mmatrix(datatype, basename, dim[1], dim[2])
+    if (isnullptr(ptr)) stop("Failed to map the mmatrix")
     new("mmatrix", ptr = ptr, file = basename, dim = dim, datatype = datatype)
 }

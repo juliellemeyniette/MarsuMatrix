@@ -5,23 +5,35 @@ MMatrixAccess <- function(pM, datatype, L) {
     .Call(`_MarsuMatrix_MMatrixAccess`, pM, datatype, L)
 }
 
-MMatrixToNumericMatrix <- function(pM, datatype) {
-    .Call(`_MarsuMatrix_MMatrixToNumericMatrix`, pM, datatype)
+MMatrixToRMatrix <- function(pM, datatype) {
+    .Call(`_MarsuMatrix_MMatrixToRMatrix`, pM, datatype)
+}
+
+extract_mmatrix_to_R <- function(pM, datatype, I, J, target) {
+    invisible(.Call(`_MarsuMatrix_extract_mmatrix_to_R`, pM, datatype, I, J, target))
+}
+
+extract_mmatrix_to_mmatrix <- function(pM, datatype, I, J, target) {
+    invisible(.Call(`_MarsuMatrix_extract_mmatrix_to_mmatrix`, pM, datatype, I, J, target))
+}
+
+extract_mvector_to_R <- function(pM, datatype, I, target) {
+    invisible(.Call(`_MarsuMatrix_extract_mvector_to_R`, pM, datatype, I, target))
+}
+
+extract_mvector_to_mvector <- function(pM, datatype, I, target) {
+    invisible(.Call(`_MarsuMatrix_extract_mvector_to_mvector`, pM, datatype, I, target))
 }
 
 isnullptr <- function(pointer) {
     .Call(`_MarsuMatrix_isnullptr`, pointer)
 }
 
-array_access <- function(A, I) {
-    .Call(`_MarsuMatrix_array_access`, A, I)
+link_mmatrix <- function(datatype, file, nrow, ncol) {
+    .Call(`_MarsuMatrix_link_mmatrix`, datatype, file, nrow, ncol)
 }
 
-array_extract <- function(A, L) {
-    .Call(`_MarsuMatrix_array_extract`, A, L)
-}
-
-restore_mmatrix_ <- function(datatype, file, nrow, ncol) {
-    .Call(`_MarsuMatrix_restore_mmatrix_`, datatype, file, nrow, ncol)
+set_values_mmatrix <- function(pM, datatype, I, J, values) {
+    invisible(.Call(`_MarsuMatrix_set_values_mmatrix`, pM, datatype, I, J, values))
 }
 

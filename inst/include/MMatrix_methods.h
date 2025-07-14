@@ -96,6 +96,8 @@ template <typename T>
 MMatrix<T>::MMatrix(std::string path, size_t nrow, size_t ncol, bool verbose)
     : ncol_(ncol), nrow_(nrow), path_(path), verbose_(verbose), dim_{nrow, ncol}
 {
+    dim_.push_back(nrow);
+    dim_.push_back(ncol);
     size_ = ncol * nrow;
     if (!size_) throw std::invalid_argument("Ncol or Nrow is equal to 0, cannot map an empty file !");
     size_t matrix_size = size_ * sizeof(T);
@@ -103,6 +105,7 @@ MMatrix<T>::MMatrix(std::string path, size_t nrow, size_t ncol, bool verbose)
 }
 
 
+// constructor for array
 template <typename T>
 MMatrix<T>::MMatrix(std::string path, std::vector<size_t> dims, bool verbose) 
 // ! if it is not a matrix (dim.size != 2) ncol & nrow ARE NOT USED !!!
@@ -142,7 +145,7 @@ MMatrix<T>::~MMatrix()
     }
 }
 
-// Getters :
+// Getters for nrow, ncol, size, path, data_ptr, dim, verbose
 template <typename T>
 size_t MMatrix<T>::nrow() const
 {
@@ -152,6 +155,11 @@ template <typename T>
 size_t MMatrix<T>::ncol() const
 {
     return ncol_;
+}
+template <typename T>
+size_t MMatrix<T>::size() const
+{
+    return size_;
 }
 template <typename T>
 std::string MMatrix<T>::path() const
@@ -167,62 +175,69 @@ template <typename T>
 std::vector<size_t> MMatrix<T>::dim() const {
     return dim_;
 }
-
-// Operator [] gives back the data at index, UNSAFE.
-template <typename T>
-T &MMatrix<T>::operator[](size_t ind)
-{
-    return data_ptr_[ind];
-}
-template <typename T>
-const T &MMatrix<T>::operator[](size_t ind) const
-{
-    return data_ptr_[ind];
-}
-
-// Operator () gives back data at row i, col j
-template <typename T>
-T &MMatrix<T>::operator()(size_t i, size_t j)
-{
-    return data_ptr_[(j * nrow_) + i];
-}
-template <typename T>
-const T &MMatrix<T>::operator()(size_t i, size_t j) const
-{
-    return data_ptr_[(j * nrow_) + i];
-}
-// FUTURE OVERLOAD FOR ARRAY accessing with ()
-template <typename T>
-template <typename intVec>
-T &MMatrix<T>::operator()(intVec index) {
-// thsi was done with RV's code
-    int k = index[0];
-    int l = 1;
-    for(size_t i = 1; i < dim_.size(); i++) {
-      l *= dim_[i-1];
-      k += l * index[i];
-    }
-    return data_ptr_[k];
-}
-template <typename T>
-template <typename intVec>
-const T &MMatrix<T>::operator()(intVec index) const {
-    int k = index[0];
-    int l = 1;
-    for(size_t i = 1; i < dim_.size(); i++) {
-      l *= dim_[i-1];
-      k += l * index[i];
-    }
-    return data_ptr_[k];
-}
-
 template <typename T>
 bool MMatrix<T>::verbose() const
 {
     return verbose_;
 }
 
-// Same as operators but safe, with bound checking.
+
+// ----------------- operator [] --------------------------
+// Operator [] gives back the data at index, UNSAFE.
+template <typename T>
+T &MMatrix<T>::operator[](size_t ind)
+{
+    return data_ptr_[ind];
+}
+
+template <typename T>
+const T &MMatrix<T>::operator[](size_t ind) const
+{
+    return data_ptr_[ind];
+}
+
+// ----------------- operator () --------------------------
+// data at row i, col j
+template <typename T>
+T &MMatrix<T>::operator()(size_t i, size_t j)
+{
+    return data_ptr_[(j * nrow_) + i];
+}
+
+template <typename T>
+const T &MMatrix<T>::operator()(size_t i, size_t j) const
+{
+    return data_ptr_[(j * nrow_) + i];
+}
+
+// for arrays
+template <typename T>
+template <typename intVec>
+T &MMatrix<T>::operator()(const intVec & index) {
+    int k = index[0];
+    int l = 1;
+    for(size_t i = 1; i < dim_.size(); i++) {
+      l *= dim_[i-1];
+      k += l * index[i];
+    }
+    return data_ptr_[k];
+}
+
+template <typename T>
+template <typename intVec>
+const T &MMatrix<T>::operator()(const intVec & index) const {
+    int k = index[0];
+    int l = 1;
+    for(size_t i = 1; i < dim_.size(); i++) {
+      l *= dim_[i-1];
+      k += l * index[i];
+    }
+    return data_ptr_[k];
+}
+
+
+// -------------------- at ---------------------
+// Same as operators [] and () but safe, with bound checking.
 // Can be used with one (like []) or two parameters.
 template <typename T>
 T &MMatrix<T>::at(size_t ind) const
@@ -233,53 +248,126 @@ T &MMatrix<T>::at(size_t ind) const
     }
     return data_ptr_[ind];
 }
+
 template <typename T>
 T &MMatrix<T>::at(size_t i, size_t j) const
 {
     // so will fail if more than 2 dims
-    if (!ncol_ || !nrow_ || i > nrow_ || j > ncol_ )
-    {
-        std::string errMsg = "Matrix indices out of range, only goes up to "
-            + std::to_string(ncol_) + " columns and " + std::to_string(nrow_)
-            + " rows";
-        throw std::out_of_range(errMsg);
-    }
+    if (!ncol_ || !nrow_ || i >= nrow_ || j >= ncol_ )
+        throw std::out_of_range("Index out of range");
     return data_ptr_[(j * nrow_) + i];
 }
 
 template <typename T>
 template <typename intVec>
-T &MMatrix<T>::at(intVec index) const {
+T &MMatrix<T>::at(const intVec & index) const {
     std::cout << "Using the at(intVec index) :\n";
-    size_t D = dim_.size();
     if (index.size() != dim_.size()) {
         throw std::invalid_argument("Index given does not match matrix dimensions.");
     }
     // should also do a check with this.size() ?
-
-    // prepare offset values
-    std::vector<size_t> Le; // will be of size D at the end normally
-    // but if i do Le(D) fails to push_back <- there should be other ways but i'm tired
-    size_t le = 1; // 1 pas 0 parce que neutre pour multiplication !!
-    Le.push_back(le);
-    // TO DEBUG 
-    std::cout << "Le[0] : " << Le[0] << "\n";
-    // TODO : collapse the 2 loops into one 
-    for(size_t i = 0; i < D; i++) {
-      le *= dim_[i];
-      Le.push_back(le);
-      std::cout << Le[i] << ", ";
+    if(index[0] >= dim_[0]) throw std::out_of_range("Index out of range");
+    int k = index[0];
+    int l = 1;
+    for(size_t i = 1; i < dim_.size(); i++) {
+      if(index[i] >= dim_[i]) throw std::out_of_range("Index out of range");
+      l *= dim_[i-1];
+      k += l * index[i];
     }
-
-    size_t final_index = 0;
-    // D - 1 ou D ?
-    for(size_t j = 0; j < D; j++) {
-        final_index += index[j] * Le[j];
-    }
-    std::cout << "final index :" << final_index << "\n";
-    return data_ptr_[final_index];
+    return data_ptr_[k];
 }
 
+// ------------------- set values ---------------------
+template <typename T>
+template <typename intVec, typename Tvec>
+void MMatrix<T>::set_values_matrix(const intVec & I, const intVec & J, Tvec & values) {
+  if(!ncol_ || !nrow_)
+    throw std::runtime_error("Not a matrix");
+
+  size_t vs = values.size();
+
+  size_t k = 0;
+  for(auto j : J) 
+    for(auto i : I)
+      data_ptr_[i + j*nrow_] = values[ (k++) % vs ];
+}
+
+
+// ------------------------ extractions ----------------------
+template <typename T>
+template <typename intVec, typename targetVec>
+void MMatrix<T>::extract_vector(const intVec & I, targetVec & target) const {
+  if(I.size() != target.size())
+    throw std::runtime_error("Bad target size");
+
+  size_t k = 0;
+  for(auto i : I) 
+    target[k++] = data_ptr_[i];
+}
+
+template <typename T>
+template <typename intVec, typename targetVec>
+void MMatrix<T>::extract_matrix(const intVec & I, const intVec & J, targetVec & target) const {
+  if(!ncol_ || !nrow_)
+    throw std::runtime_error("Not a matrix");
+
+  if(I.size() * J.size() != target.size())
+    throw std::runtime_error("Bad target size");
+
+  size_t k = 0;
+  for(auto j : J) 
+    for(auto i : I) 
+       target[k++] = at(i,j);
+}
+
+template <typename T>
+template <typename intVec, typename targetVec>
+void MMatrix<T>::extract_array(const std::vector<intVec> & I, targetVec & target) const {
+  if(I.size() != dim_.size())
+    throw std::runtime_error("Bad number of dimensions");
+
+  size_t D = I.size();
+
+  // first check target dimensions
+  size_t le = 1;
+  for(size_t i = 0; i < D; i++) le *= I[i].size();
+  if(le != target.size())
+    throw std::runtime_error("Bad target size");
+
+  // prepare offset values
+  std::vector<size_t> Le;
+  le = 1;
+  Le.push_back(le);
+  for(size_t i = 0; i < D - 1; i++) {
+    le *= dim_[i];
+    Le.push_back(le);
+  }
+    
+  // let's go
+  std::vector<size_t> ind;
+  indices(I, Le, 0, ind);
+  size_t k = 0;
+  for(size_t i : ind) {
+    target[k++] = at(i);
+  }
+}
+
+template <typename T>
+template <typename intVec>
+void MMatrix<T>::indices(const std::vector<intVec> & I, const std::vector<size_t> & Le, size_t d, std::vector<size_t> & ind) {
+  if(I.size()-1 == d) {
+    for(auto i : I[d])
+      ind.push_back( i * Le[d]);
+    return;
+  }
+  std::vector<size_t> ind2;
+  indices(I, Le, d+1, ind2);
+  for(size_t i2 : ind2)
+    for(size_t i : I[d])
+      ind.push_back( i * Le[d] + i2 );
+}
+
+// ------------------------------------------------------------
 // UNSAFE, calling ()
 template <typename T>
 template <typename U>
