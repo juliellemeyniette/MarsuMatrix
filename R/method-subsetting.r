@@ -3,7 +3,7 @@ extract_mmatrix <- function(x, i, j, drop = TRUE) {
   J <- as.integer(j) - 1L
   # target size
   tsize <- length(I) * length(J)
-  if(tsize > houba()) {
+  if(tsize > houba("max.size")) {
     T <- mmatrix(x@datatype, length(I), length(J))
     extract_mmatrix_to_mmatrix(x@ptr, x@datatype, I, J, T@ptr)
     T
@@ -27,7 +27,7 @@ extract_mvector <- function(x, i) {
   I <- as.integer(i) - 1L
   # target size
   tsize <- length(I) 
-  if(tsize > houba()) {
+  if(tsize > houba("max.size")) {
     T <- mvector(x@datatype, tsize)
     extract_mvector_to_mvector(x@ptr, x@datatype, I, T@ptr)
     T
@@ -46,12 +46,18 @@ extract_mvector <- function(x, i) {
 
 #' @rdname extract 
 setMethod("[", c(x = "mmatrix", i = "numeric", j = "numeric", drop = "ANY"),
-  function(x, i, j, ..., drop) extract_mmatrix(x, i, j, drop)
+  function(x, i, j, ..., drop) {
+    if(...length() > 0) stop("Bad number of dimensions")
+    extract_mmatrix(x, i, j, drop)
+  }
 )
 
 # @rdname extract 
 setMethod("[", c(x = "mmatrix", i = "missing", j = "numeric", drop = "ANY"),
-  function(x, i, j, ..., drop) extract_mmatrix(x, 1:nrow(x), j, drop)
+  function(x, i, j, ..., drop) {
+    if(...length() > 0) stop("Bad number of dimensions")
+    extract_mmatrix(x, 1:nrow(x), j, drop)
+  }
 )
 
 #' @rdname extract 
@@ -60,6 +66,7 @@ setMethod("[", c(x = "mmatrix", i = "numeric", j = "missing", drop = "ANY"),
     if(nargs() == 2L) { # appel de type x[i]
       extract_mvector(x, i)
     } else {
+      if(...length() > 0) stop("Bad number of dimensions")
       extract_mmatrix(x, i, 1:ncol(x), drop)
     }
   }
@@ -67,7 +74,10 @@ setMethod("[", c(x = "mmatrix", i = "numeric", j = "missing", drop = "ANY"),
 
 #' @rdname extract 
 setMethod("[", c(x = "mmatrix", i = "missing", j = "missing", drop = "ANY"),
-  function(x, i, j, ..., drop) extract_mmatrix(x, 1:nrow(x), 1:ncol(x), drop)
+  function(x, i, j, ..., drop) {
+    if(...length() > 0) stop("Bad number of dimensions")
+    extract_mmatrix(x, 1:nrow(x), 1:ncol(x), drop)
+  }
 )
 
 # -------------- methode pour les vecteurs, j toujours missing
@@ -75,15 +85,18 @@ setMethod("[", c(x = "mmatrix", i = "missing", j = "missing", drop = "ANY"),
 #' @rdname extract 
 setMethod("[", c(x = "mvector", i = "numeric", j = "missing", drop = "ANY"),
   function(x, i, j, ..., drop) {
+    if(...length() > 0) stop("Bad number of dimensions")
     extract_mvector(x, i)
   }
 )
 
-# ceci fait une copie (selon la valeur de houba())... pourquoi pas.
+# ceci fait une copie (selon la valeur de houba("max.size"))... pourquoi pas.
 
 #' @rdname extract 
 setMethod("[", c(x = "mvector", i = "missing", j = "missing", drop = "ANY"),
-  function(x, i, j, ..., drop) extract_mvector(x, 1:x@length)
+  function(x, i, j, ..., drop) {
+    if(...length() > 0) stop("Bad number of dimensions")
+    extract_mvector(x, 1:x@length)
+  }
 )
 
-              

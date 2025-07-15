@@ -15,8 +15,12 @@ setMethod("show", "mmatrix",
       cat("A mmatrix with a broken external ptr ! Try using restore()\n")
     } else {
       cat("A mmatrix with", nrow(object), "rows and", ncol(object), "cols\n")
-      cat("containing data of type : ", object@datatype, "\n")
+      cat("data type: ", object@datatype, "\n")
       cat("File:", object@file, "\n")
+      cat("--- excerpt\n")
+      n <- min(5,nrow(object))
+      m <- min(5,ncol(object))
+      print(as.matrix(object[seq_len(n), seq_len(m)]))
     }
   }
 )

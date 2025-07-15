@@ -37,3 +37,7 @@ set_values_mmatrix <- function(pM, datatype, I, J, values) {
     invisible(.Call(`_MarsuMatrix_set_values_mmatrix`, pM, datatype, I, J, values))
 }
 
+set_values_mmatrix_mm <- function(pM, datatype, I, J, values, valtype) {
+    invisible(.Call(`_MarsuMatrix_set_values_mmatrix_mm`, pM, datatype, I, J, values, valtype))
+}
+

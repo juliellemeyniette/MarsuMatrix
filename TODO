@@ -1,2 +1,4 @@
-Voir avec Juliette le comportement de FileHandler dans le cas où 
-le fichier n'a pas la bonne taille
+* Voir avec Juliette le comportement de FileHandler dans le cas où 
+  le fichier n'a pas la bonne taille
+
+* Les fonctions de remplacement ne sont pas safe ! Verifier les bornes (ou utiliser at(), est-ce que c'est possible ?)

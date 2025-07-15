@@ -15,8 +15,11 @@ setMethod("show", "mvector",
       cat("A mvector with a broken external ptr ! Try using restore()\n")
     } else {
       cat("A mvector of length", object@length, "\n")
-      cat("containing data of type : ", object@datatype, "\n")
+      cat("data type: ", object@datatype, "\n")
       cat("File:", object@file, "\n")
+      cat("--- excerpt\n")
+      n <- min(5,object@length)
+      print(as.vector(object[seq_len(n)]))
     }
   }
 )
