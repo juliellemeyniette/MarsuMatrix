@@ -1,9 +1,8 @@
 #' Converting memory mapped matrices (on disk) 
 #' to R matrices (in memory)
-#' 
-#' @name as.matrix.mmatrix
 #'
 #' @exportS3Method as.matrix mmatrix
+#' @export
 as.matrix.mmatrix <- function(x) {
   if(isnullptr(x@ptr)) {
     stop("This mmatrix has a broken ptr, try re-mapping it with restore()")
@@ -18,6 +17,6 @@ as.vector.mmatrix <- function(x, mode = "any") {
     stop("This mmatrix has a broken ptr, try re-mapping it with restore()")
   } else {
     R <- MMatrixToRMatrix(x@ptr, x@datatype)
-    as.vector(R)
+    as.vector(R, mode)
   }
 }

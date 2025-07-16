@@ -1,5 +1,5 @@
 #' @export
-mmatrix <- function(type = c("double", "float", "int"), nrow, ncol, filename) {
+mmatrix <- function(type = c("double", "float", "int", "int16_t"), nrow, ncol, filename) {
   type <- match.arg(type)
   if(missing(filename)) filename <- tempfile("mmatrix")
   ptr <- link_mmatrix(type, filename, nrow, ncol)

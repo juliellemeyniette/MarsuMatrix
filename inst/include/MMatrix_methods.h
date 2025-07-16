@@ -3,7 +3,7 @@
 
 #include <cassert>
 #include <fstream> // for ofstream, loading the file
-#include <iostream> // for std::cout
+#include <sstream> // for verbosout
 #include <stdexcept>
 #include <system_error> // for std::error_code
 
@@ -12,14 +12,14 @@
 
 // Helper function for the c°
 template <typename T>
-void MMatrix<T>::FileHandler(std::string path, size_t matrix_size, bool verbose) {
+void MMatrix<T>::FileHandler(std::string path, size_t matrix_size, bool verbose, bool authorize_resize) {
   /* FIRST : check if file exists, if it does not, create one of the good size*/
     const char * path_c = path.c_str();
     FILE *check = fopen(path_c, "rb"); // open en readonly 
 
     if (!check)
     {
-        if (verbose_ == true) std::cout << "The file " << path << " does not exist, creating one ...  ";
+        if (verbose_) verbosout_ << "The file " << path << " does not exist, creating one ...  ";
         std::ofstream newfile(path, std::ios::binary); // to load with \0
         if (!newfile || !newfile.is_open())
         {
@@ -33,11 +33,11 @@ void MMatrix<T>::FileHandler(std::string path, size_t matrix_size, bool verbose)
         newfile.put('\0');
         // mio will reopen it
         newfile.close();
-        if (verbose_ == true) std::cout << "Done !" << std::endl;
+        if (verbose_) verbosout_ << "Done !" << std::endl;
     }
     else {
-        if (verbose_ == true) {
-            std::cout << "Using and potentially overwritting already existing " << path << std::endl;
+        if (verbose_) {
+            verbosout_ << "Using and potentially overwritting already existing " << path << std::endl;
         }
         fclose(check);
 
@@ -47,10 +47,10 @@ void MMatrix<T>::FileHandler(std::string path, size_t matrix_size, bool verbose)
             throw std::runtime_error("Failed to analyse file: " + path);
         }
         off_t file_size = buf.st_size;
-        // TODO : TOTHINK ! could there be times where you want to mmap and open only a part of the file ? without rm-Ing the rest ?
         if (file_size != matrix_size) {
-            if (verbose_) {
-                std::cout << "Resizing file from " << file_size << " to " << matrix_size << " bytes." << std::endl;
+            if (!authorize_resize) throw std::runtime_error("The file size doesn't match the matrix size ! Use the \"authorise_resize\" to force a resize.");
+            if (verbose) {
+                verbosout_ << "Resizing file from " << file_size << " to " << matrix_size << " bytes." << std::endl;
             }
 
             if (matrix_size > file_size) {
@@ -65,7 +65,6 @@ void MMatrix<T>::FileHandler(std::string path, size_t matrix_size, bool verbose)
             } else {
                 // trim it down
                 if (truncate(path_c, matrix_size) != 0) {
-                    // TODO : add a user confirmation that this is what they want !
                     throw std::runtime_error("Failed to truncate file: " + path);
                 }
             }
@@ -87,27 +86,30 @@ void MMatrix<T>::FileHandler(std::string path, size_t matrix_size, bool verbose)
     }
 
     data_ptr_ = reinterpret_cast<T *>(matrix_file_.data());
+
+    if (verbose_) {
+        verbosout_ << "An MMatrix was successfuly created.\nfrom file :" << path << "\n and with "<< dim_.size() << " dims : [" 
+        << nrow_  << ", " << ncol_ << "] (nrow, ncol) \n";
+    }
 }
 
 // Constructor HARDCODED FOR A 2 DIM MMATRIX ! opening the file containing the matrix if path exists, also resizing it accordingly, else
 // creating one. 
 // TODO : check if logical sense for nrow first and ncol last ?
 template <typename T>
-MMatrix<T>::MMatrix(std::string path, size_t nrow, size_t ncol, bool verbose)
+MMatrix<T>::MMatrix(std::string path, size_t nrow, size_t ncol, bool verbose, bool authorize_resize)
     : ncol_(ncol), nrow_(nrow), path_(path), verbose_(verbose), dim_{nrow, ncol}
 {
-    dim_.push_back(nrow);
-    dim_.push_back(ncol);
     size_ = ncol * nrow;
     if (!size_) throw std::invalid_argument("Ncol or Nrow is equal to 0, cannot map an empty file !");
     size_t matrix_size = size_ * sizeof(T);
-    FileHandler(path, matrix_size, verbose);
+    FileHandler(path, matrix_size, verbose, authorize_resize);
 }
 
 
 // constructor for array
 template <typename T>
-MMatrix<T>::MMatrix(std::string path, std::vector<size_t> dims, bool verbose) 
+MMatrix<T>::MMatrix(std::string path, std::vector<size_t> dims, bool verbose, bool authorize_resize) 
 // ! if it is not a matrix (dim.size != 2) ncol & nrow ARE NOT USED !!!
 : ncol_(0), nrow_(0), path_(path), dim_{dims}, verbose_(verbose)
 {
@@ -119,18 +121,18 @@ MMatrix<T>::MMatrix(std::string path, std::vector<size_t> dims, bool verbose)
     size_t matrix_size = size_ * sizeof(T);
 
     if (dim_.size() == 2) {
-        if (verbose_ == true) std::cout << "You are creating a matrix (2dims) with the array style c°.\n";
+        if (verbose_ == true) verbosout_ << "You are creating a matrix (2dims) with the array style c°.\n";
         nrow_ = dim_[0];
         ncol_ = dim_[1];
     }
-    FileHandler(path, matrix_size, verbose);
+    FileHandler(path, matrix_size, verbose, authorize_resize);
 }
 
 // Destructor flushing changes to disk before unmapping
 template <typename T>
 MMatrix<T>::~MMatrix()
 {
-    if (verbose_ == true) std::cout << "Unmapping mmatrix " << path_ << std::endl;
+    if (verbose_ == true) verbosout_ << "Unmapping mmatrix " << path_ << std::endl;
     std::error_code error;
     if (matrix_file_.is_mapped())
     {
@@ -138,7 +140,7 @@ MMatrix<T>::~MMatrix()
         if (error)
         {
             // here no exception not to disturb the unstacking
-            std::cerr << "Failed to unsync the file " << path_ << ": " << error.message()
+            verbosout_ << "ERROR : in MMatrix destructor : Failed to unsync the file " << path_ << ": " << error.message()
                       << '\n';
         }
         matrix_file_.unmap();
@@ -180,6 +182,11 @@ bool MMatrix<T>::verbose() const
 {
     return verbose_;
 }
+template <typename T>
+std::string MMatrix<T>::getVerbosout() const {
+    return verbosout_.str();
+}
+// no setters, but I don't really see the need...
 
 
 // ----------------- operator [] --------------------------
@@ -261,7 +268,6 @@ T &MMatrix<T>::at(size_t i, size_t j) const
 template <typename T>
 template <typename intVec>
 T &MMatrix<T>::at(const intVec & index) const {
-    std::cout << "Using the at(intVec index) :\n";
     if (index.size() != dim_.size()) {
         throw std::invalid_argument("Index given does not match matrix dimensions.");
     }
@@ -404,11 +410,15 @@ inline std::string get_type_name()
     else if (std::is_same<T, double>::value)
     {
         return "double";
+    } 
+    else if (std::is_same<T, int16_t>::value)
+    {
+        return "int16_t";
     }
     else if (std::is_same<T, char>::value)
     {
         return "char";
-    }
+    } 
     else
     {
         return "unknown"; // to expand later ?

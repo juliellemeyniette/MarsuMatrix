@@ -33,6 +33,10 @@ link_mmatrix <- function(datatype, file, nrow, ncol) {
     .Call(`_MarsuMatrix_link_mmatrix`, datatype, file, nrow, ncol)
 }
 
+print_debug <- function(pM, datatype) {
+    invisible(.Call(`_MarsuMatrix_print_debug`, pM, datatype))
+}
+
 set_values_mmatrix <- function(pM, datatype, I, J, values) {
     invisible(.Call(`_MarsuMatrix_set_values_mmatrix`, pM, datatype, I, J, values))
 }

@@ -114,6 +114,17 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// print_debug
+void print_debug(SEXP pM, std::string datatype);
+RcppExport SEXP _MarsuMatrix_print_debug(SEXP pMSEXP, SEXP datatypeSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type pM(pMSEXP);
+    Rcpp::traits::input_parameter< std::string >::type datatype(datatypeSEXP);
+    print_debug(pM, datatype);
+    return R_NilValue;
+END_RCPP
+}
 // set_values_mmatrix
 void set_values_mmatrix(SEXP pM, std::string datatype, Rcpp::IntegerVector I, Rcpp::IntegerVector J, SEXP values);
 RcppExport SEXP _MarsuMatrix_set_values_mmatrix(SEXP pMSEXP, SEXP datatypeSEXP, SEXP ISEXP, SEXP JSEXP, SEXP valuesSEXP) {
@@ -153,6 +164,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_MarsuMatrix_extract_mvector_to_mvector", (DL_FUNC) &_MarsuMatrix_extract_mvector_to_mvector, 4},
     {"_MarsuMatrix_isnullptr", (DL_FUNC) &_MarsuMatrix_isnullptr, 1},
     {"_MarsuMatrix_link_mmatrix", (DL_FUNC) &_MarsuMatrix_link_mmatrix, 4},
+    {"_MarsuMatrix_print_debug", (DL_FUNC) &_MarsuMatrix_print_debug, 2},
     {"_MarsuMatrix_set_values_mmatrix", (DL_FUNC) &_MarsuMatrix_set_values_mmatrix, 5},
     {"_MarsuMatrix_set_values_mmatrix_mm", (DL_FUNC) &_MarsuMatrix_set_values_mmatrix_mm, 6},
     {NULL, NULL, 0}

@@ -17,5 +17,13 @@ Rcpp::NumericVector MMatrixAccess(SEXP pM, std::string datatype, Rcpp::List L) {
         Rcpp::XPtr<MMatrix<double>> instanc(pM);
         return Rcpp::wrap(instanc->at(L));
     }
+    else if (datatype == "int") {
+        Rcpp::XPtr<MMatrix<int>> instanc(pM);
+        return Rcpp::wrap(instanc->at(L));
+    }
+    else if (datatype == "int16_t") {
+        Rcpp::XPtr<MMatrix<int16_t>> instanc(pM);
+        return Rcpp::wrap(instanc->at(L));
+    }
     else return Rcpp::wrap(-1);
 }

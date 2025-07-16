@@ -2,7 +2,7 @@
 #define MMATRIX_H
 
 #include <fstream>
-#include <iostream>
+#include <sstream>
 #include <string>
 #include <system_error>
 #include <vector>
@@ -20,16 +20,16 @@ class MMatrix
 public:
     // Constructor opening the file containing the matrix
     // if path exists else creating one.
-    MMatrix(std::string path, size_t nrow, size_t ncol, bool verbose = true);
+    MMatrix(std::string path, size_t nrow, size_t ncol, bool verbose = true, bool authorize_resize = false);
     // Constructor for a multidimensional matrix / R-style array
-    MMatrix(std::string path, std::vector<size_t> dims, bool verbose = true);
+    MMatrix(std::string path, std::vector<size_t> dims, bool verbose = true, bool authorize_resize = false);
     // Destructor flushing changes to disk before unmapping
     ~MMatrix();
 
 protected:
     // this is a function called by the constructor to create a file of the good size 
-    // check if it exists / resize it (??)
-    void FileHandler(std::string path, size_t matrix_size, bool verbose);
+    // check if it exists / resize it - if authorize_resize == true
+    void FileHandler(std::string path, size_t matrix_size, bool verbose, bool authorize_resize);
 
 public:
     // Getters
@@ -41,6 +41,7 @@ public:
     std::vector<size_t> dim() const;
     T *data() const;
     bool verbose() const;
+    std::string getVerbosout() const;
 
     // a function for tests
     template <typename U>
@@ -120,6 +121,9 @@ protected:
 
     // Boolean used to silence the class 
     bool verbose_;
+
+    // used for logging
+    std::ostringstream verbosout_;
 };
 
 #endif // MMATRIX_H

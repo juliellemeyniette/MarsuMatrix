@@ -37,4 +37,9 @@ V[1:4] <- pi
 stopifnot( all(as.vector(V[3:6]) == c(pi, pi, 0, 0)) ) 
 
 
+# int_16 matrix
+C <- mmatrix("int16_t", 10, 20)
+C[1, ] <- A[3, ]
+c <- as.matrix(C[1,])
 
+           
