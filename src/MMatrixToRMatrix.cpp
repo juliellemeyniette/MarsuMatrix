@@ -46,7 +46,6 @@ SEXP MMatrixToRMatrix(SEXP pM, std::string datatype) {
     }
     return R;
   } else if (datatype == "int16_t") {
-    std::cout << "Using the int16_t loop for as.matrix\n";
     Rcpp::XPtr<MMatrix<int16_t>> instanc(pM);
     unsigned int ncol = instanc->ncol();
     unsigned int nrow = instanc->nrow();
