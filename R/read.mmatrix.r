@@ -14,7 +14,7 @@ read.mmatrix <- function(basename) {
         #stop("wtf \n file in f° :", basename, "\n file in descriptor file : ", file)
         file = basename
     }
-    dim <- as.integer(c(parsed_desc$ncol, parsed_desc$nrow))
+    dim <- as.integer(c(parsed_desc$nrow, parsed_desc$ncol))
     # I chose to send basename (and not file) bcos a check was made on it
     ptr <- link_mmatrix(datatype, basename, dim[1], dim[2])
     if (isnullptr(ptr)) stop("Failed to map the mmatrix")
