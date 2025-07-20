@@ -11,21 +11,21 @@ Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
 // MMatrixAccess
-Rcpp::NumericVector MMatrixAccess(SEXP pM, std::string datatype, Rcpp::List L);
-RcppExport SEXP _MarsuMatrix_MMatrixAccess(SEXP pMSEXP, SEXP datatypeSEXP, SEXP LSEXP) {
+SEXP MMatrixAccess(SEXP pM, std::string datatype, Rcpp::IntegerVector I);
+RcppExport SEXP _houba_MMatrixAccess(SEXP pMSEXP, SEXP datatypeSEXP, SEXP ISEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type pM(pMSEXP);
     Rcpp::traits::input_parameter< std::string >::type datatype(datatypeSEXP);
-    Rcpp::traits::input_parameter< Rcpp::List >::type L(LSEXP);
-    rcpp_result_gen = Rcpp::wrap(MMatrixAccess(pM, datatype, L));
+    Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type I(ISEXP);
+    rcpp_result_gen = Rcpp::wrap(MMatrixAccess(pM, datatype, I));
     return rcpp_result_gen;
 END_RCPP
 }
 // MMatrixToRArray
 SEXP MMatrixToRArray(SEXP pM, std::string datatype);
-RcppExport SEXP _MarsuMatrix_MMatrixToRArray(SEXP pMSEXP, SEXP datatypeSEXP) {
+RcppExport SEXP _houba_MMatrixToRArray(SEXP pMSEXP, SEXP datatypeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -37,7 +37,7 @@ END_RCPP
 }
 // MMatrixToRMatrix
 SEXP MMatrixToRMatrix(SEXP pM, std::string datatype);
-RcppExport SEXP _MarsuMatrix_MMatrixToRMatrix(SEXP pMSEXP, SEXP datatypeSEXP) {
+RcppExport SEXP _houba_MMatrixToRMatrix(SEXP pMSEXP, SEXP datatypeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -49,7 +49,7 @@ END_RCPP
 }
 // copy_values_
 void copy_values_(SEXP pM, std::string datatype, SEXP values);
-RcppExport SEXP _MarsuMatrix_copy_values_(SEXP pMSEXP, SEXP datatypeSEXP, SEXP valuesSEXP) {
+RcppExport SEXP _houba_copy_values_(SEXP pMSEXP, SEXP datatypeSEXP, SEXP valuesSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type pM(pMSEXP);
@@ -61,7 +61,7 @@ END_RCPP
 }
 // copy_values_mm_
 void copy_values_mm_(SEXP pM, std::string datatype, SEXP values, std::string valtype);
-RcppExport SEXP _MarsuMatrix_copy_values_mm_(SEXP pMSEXP, SEXP datatypeSEXP, SEXP valuesSEXP, SEXP valtypeSEXP) {
+RcppExport SEXP _houba_copy_values_mm_(SEXP pMSEXP, SEXP datatypeSEXP, SEXP valuesSEXP, SEXP valtypeSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type pM(pMSEXP);
@@ -74,7 +74,7 @@ END_RCPP
 }
 // cw_inverse
 void cw_inverse(SEXP pM, std::string datatype);
-RcppExport SEXP _MarsuMatrix_cw_inverse(SEXP pMSEXP, SEXP datatypeSEXP) {
+RcppExport SEXP _houba_cw_inverse(SEXP pMSEXP, SEXP datatypeSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type pM(pMSEXP);
@@ -85,7 +85,7 @@ END_RCPP
 }
 // cw_opposite
 void cw_opposite(SEXP pM, std::string datatype);
-RcppExport SEXP _MarsuMatrix_cw_opposite(SEXP pMSEXP, SEXP datatypeSEXP) {
+RcppExport SEXP _houba_cw_opposite(SEXP pMSEXP, SEXP datatypeSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type pM(pMSEXP);
@@ -96,7 +96,7 @@ END_RCPP
 }
 // cw_sum
 void cw_sum(SEXP pM, std::string datatype, SEXP e2_);
-RcppExport SEXP _MarsuMatrix_cw_sum(SEXP pMSEXP, SEXP datatypeSEXP, SEXP e2_SEXP) {
+RcppExport SEXP _houba_cw_sum(SEXP pMSEXP, SEXP datatypeSEXP, SEXP e2_SEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type pM(pMSEXP);
@@ -108,7 +108,7 @@ END_RCPP
 }
 // cw_minus
 void cw_minus(SEXP pM, std::string datatype, SEXP e2_);
-RcppExport SEXP _MarsuMatrix_cw_minus(SEXP pMSEXP, SEXP datatypeSEXP, SEXP e2_SEXP) {
+RcppExport SEXP _houba_cw_minus(SEXP pMSEXP, SEXP datatypeSEXP, SEXP e2_SEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type pM(pMSEXP);
@@ -120,7 +120,7 @@ END_RCPP
 }
 // cw_prod
 void cw_prod(SEXP pM, std::string datatype, SEXP e2_);
-RcppExport SEXP _MarsuMatrix_cw_prod(SEXP pMSEXP, SEXP datatypeSEXP, SEXP e2_SEXP) {
+RcppExport SEXP _houba_cw_prod(SEXP pMSEXP, SEXP datatypeSEXP, SEXP e2_SEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type pM(pMSEXP);
@@ -132,7 +132,7 @@ END_RCPP
 }
 // cw_div
 void cw_div(SEXP pM, std::string datatype, SEXP e2_);
-RcppExport SEXP _MarsuMatrix_cw_div(SEXP pMSEXP, SEXP datatypeSEXP, SEXP e2_SEXP) {
+RcppExport SEXP _houba_cw_div(SEXP pMSEXP, SEXP datatypeSEXP, SEXP e2_SEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type pM(pMSEXP);
@@ -144,7 +144,7 @@ END_RCPP
 }
 // cw_sum_mm
 void cw_sum_mm(SEXP pM, std::string datatype, SEXP e2, std::string e2type);
-RcppExport SEXP _MarsuMatrix_cw_sum_mm(SEXP pMSEXP, SEXP datatypeSEXP, SEXP e2SEXP, SEXP e2typeSEXP) {
+RcppExport SEXP _houba_cw_sum_mm(SEXP pMSEXP, SEXP datatypeSEXP, SEXP e2SEXP, SEXP e2typeSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type pM(pMSEXP);
@@ -157,7 +157,7 @@ END_RCPP
 }
 // cw_minus_mm
 void cw_minus_mm(SEXP pM, std::string datatype, SEXP e2, std::string e2type);
-RcppExport SEXP _MarsuMatrix_cw_minus_mm(SEXP pMSEXP, SEXP datatypeSEXP, SEXP e2SEXP, SEXP e2typeSEXP) {
+RcppExport SEXP _houba_cw_minus_mm(SEXP pMSEXP, SEXP datatypeSEXP, SEXP e2SEXP, SEXP e2typeSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type pM(pMSEXP);
@@ -170,7 +170,7 @@ END_RCPP
 }
 // cw_prod_mm
 void cw_prod_mm(SEXP pM, std::string datatype, SEXP e2, std::string e2type);
-RcppExport SEXP _MarsuMatrix_cw_prod_mm(SEXP pMSEXP, SEXP datatypeSEXP, SEXP e2SEXP, SEXP e2typeSEXP) {
+RcppExport SEXP _houba_cw_prod_mm(SEXP pMSEXP, SEXP datatypeSEXP, SEXP e2SEXP, SEXP e2typeSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type pM(pMSEXP);
@@ -183,7 +183,7 @@ END_RCPP
 }
 // cw_div_mm
 void cw_div_mm(SEXP pM, std::string datatype, SEXP e2, std::string e2type);
-RcppExport SEXP _MarsuMatrix_cw_div_mm(SEXP pMSEXP, SEXP datatypeSEXP, SEXP e2SEXP, SEXP e2typeSEXP) {
+RcppExport SEXP _houba_cw_div_mm(SEXP pMSEXP, SEXP datatypeSEXP, SEXP e2SEXP, SEXP e2typeSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type pM(pMSEXP);
@@ -196,7 +196,7 @@ END_RCPP
 }
 // extract_marray_to_R
 void extract_marray_to_R(SEXP pM, std::string datatype, Rcpp::List L, SEXP target);
-RcppExport SEXP _MarsuMatrix_extract_marray_to_R(SEXP pMSEXP, SEXP datatypeSEXP, SEXP LSEXP, SEXP targetSEXP) {
+RcppExport SEXP _houba_extract_marray_to_R(SEXP pMSEXP, SEXP datatypeSEXP, SEXP LSEXP, SEXP targetSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type pM(pMSEXP);
@@ -209,7 +209,7 @@ END_RCPP
 }
 // extract_marray_to_marray
 void extract_marray_to_marray(SEXP pM, std::string datatype, Rcpp::List L, SEXP target);
-RcppExport SEXP _MarsuMatrix_extract_marray_to_marray(SEXP pMSEXP, SEXP datatypeSEXP, SEXP LSEXP, SEXP targetSEXP) {
+RcppExport SEXP _houba_extract_marray_to_marray(SEXP pMSEXP, SEXP datatypeSEXP, SEXP LSEXP, SEXP targetSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type pM(pMSEXP);
@@ -222,7 +222,7 @@ END_RCPP
 }
 // extract_mmatrix_to_R
 void extract_mmatrix_to_R(SEXP pM, std::string datatype, Rcpp::IntegerVector I, Rcpp::IntegerVector J, SEXP target);
-RcppExport SEXP _MarsuMatrix_extract_mmatrix_to_R(SEXP pMSEXP, SEXP datatypeSEXP, SEXP ISEXP, SEXP JSEXP, SEXP targetSEXP) {
+RcppExport SEXP _houba_extract_mmatrix_to_R(SEXP pMSEXP, SEXP datatypeSEXP, SEXP ISEXP, SEXP JSEXP, SEXP targetSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type pM(pMSEXP);
@@ -236,7 +236,7 @@ END_RCPP
 }
 // extract_mmatrix_to_mmatrix
 void extract_mmatrix_to_mmatrix(SEXP pM, std::string datatype, Rcpp::IntegerVector I, Rcpp::IntegerVector J, SEXP target);
-RcppExport SEXP _MarsuMatrix_extract_mmatrix_to_mmatrix(SEXP pMSEXP, SEXP datatypeSEXP, SEXP ISEXP, SEXP JSEXP, SEXP targetSEXP) {
+RcppExport SEXP _houba_extract_mmatrix_to_mmatrix(SEXP pMSEXP, SEXP datatypeSEXP, SEXP ISEXP, SEXP JSEXP, SEXP targetSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type pM(pMSEXP);
@@ -250,7 +250,7 @@ END_RCPP
 }
 // extract_mvector_to_R
 void extract_mvector_to_R(SEXP pM, std::string datatype, Rcpp::IntegerVector I, SEXP target);
-RcppExport SEXP _MarsuMatrix_extract_mvector_to_R(SEXP pMSEXP, SEXP datatypeSEXP, SEXP ISEXP, SEXP targetSEXP) {
+RcppExport SEXP _houba_extract_mvector_to_R(SEXP pMSEXP, SEXP datatypeSEXP, SEXP ISEXP, SEXP targetSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type pM(pMSEXP);
@@ -263,7 +263,7 @@ END_RCPP
 }
 // extract_mvector_to_mvector
 void extract_mvector_to_mvector(SEXP pM, std::string datatype, Rcpp::IntegerVector I, SEXP target);
-RcppExport SEXP _MarsuMatrix_extract_mvector_to_mvector(SEXP pMSEXP, SEXP datatypeSEXP, SEXP ISEXP, SEXP targetSEXP) {
+RcppExport SEXP _houba_extract_mvector_to_mvector(SEXP pMSEXP, SEXP datatypeSEXP, SEXP ISEXP, SEXP targetSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type pM(pMSEXP);
@@ -276,7 +276,7 @@ END_RCPP
 }
 // isnullptr
 bool isnullptr(SEXP pointer);
-RcppExport SEXP _MarsuMatrix_isnullptr(SEXP pointerSEXP) {
+RcppExport SEXP _houba_isnullptr(SEXP pointerSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -287,7 +287,7 @@ END_RCPP
 }
 // link_marray
 SEXP link_marray(std::string datatype, std::string file, Rcpp::IntegerVector dim);
-RcppExport SEXP _MarsuMatrix_link_marray(SEXP datatypeSEXP, SEXP fileSEXP, SEXP dimSEXP) {
+RcppExport SEXP _houba_link_marray(SEXP datatypeSEXP, SEXP fileSEXP, SEXP dimSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -300,7 +300,7 @@ END_RCPP
 }
 // link_mmatrix
 SEXP link_mmatrix(std::string datatype, std::string file, size_t nrow, size_t ncol);
-RcppExport SEXP _MarsuMatrix_link_mmatrix(SEXP datatypeSEXP, SEXP fileSEXP, SEXP nrowSEXP, SEXP ncolSEXP) {
+RcppExport SEXP _houba_link_mmatrix(SEXP datatypeSEXP, SEXP fileSEXP, SEXP nrowSEXP, SEXP ncolSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -314,7 +314,7 @@ END_RCPP
 }
 // print_debug
 void print_debug(SEXP pM, std::string datatype);
-RcppExport SEXP _MarsuMatrix_print_debug(SEXP pMSEXP, SEXP datatypeSEXP) {
+RcppExport SEXP _houba_print_debug(SEXP pMSEXP, SEXP datatypeSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type pM(pMSEXP);
@@ -325,7 +325,7 @@ END_RCPP
 }
 // set_values_marray
 void set_values_marray(SEXP pM, std::string datatype, Rcpp::List L, SEXP values);
-RcppExport SEXP _MarsuMatrix_set_values_marray(SEXP pMSEXP, SEXP datatypeSEXP, SEXP LSEXP, SEXP valuesSEXP) {
+RcppExport SEXP _houba_set_values_marray(SEXP pMSEXP, SEXP datatypeSEXP, SEXP LSEXP, SEXP valuesSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type pM(pMSEXP);
@@ -338,7 +338,7 @@ END_RCPP
 }
 // set_values_marray_ma
 void set_values_marray_ma(SEXP pM, std::string datatype, Rcpp::List L, SEXP values, std::string valtype);
-RcppExport SEXP _MarsuMatrix_set_values_marray_ma(SEXP pMSEXP, SEXP datatypeSEXP, SEXP LSEXP, SEXP valuesSEXP, SEXP valtypeSEXP) {
+RcppExport SEXP _houba_set_values_marray_ma(SEXP pMSEXP, SEXP datatypeSEXP, SEXP LSEXP, SEXP valuesSEXP, SEXP valtypeSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type pM(pMSEXP);
@@ -352,7 +352,7 @@ END_RCPP
 }
 // set_values_mmatrix
 void set_values_mmatrix(SEXP pM, std::string datatype, Rcpp::IntegerVector I, Rcpp::IntegerVector J, SEXP values);
-RcppExport SEXP _MarsuMatrix_set_values_mmatrix(SEXP pMSEXP, SEXP datatypeSEXP, SEXP ISEXP, SEXP JSEXP, SEXP valuesSEXP) {
+RcppExport SEXP _houba_set_values_mmatrix(SEXP pMSEXP, SEXP datatypeSEXP, SEXP ISEXP, SEXP JSEXP, SEXP valuesSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type pM(pMSEXP);
@@ -366,7 +366,7 @@ END_RCPP
 }
 // set_values_mmatrix_mm
 void set_values_mmatrix_mm(SEXP pM, std::string datatype, Rcpp::IntegerVector I, Rcpp::IntegerVector J, SEXP values, std::string valtype);
-RcppExport SEXP _MarsuMatrix_set_values_mmatrix_mm(SEXP pMSEXP, SEXP datatypeSEXP, SEXP ISEXP, SEXP JSEXP, SEXP valuesSEXP, SEXP valtypeSEXP) {
+RcppExport SEXP _houba_set_values_mmatrix_mm(SEXP pMSEXP, SEXP datatypeSEXP, SEXP ISEXP, SEXP JSEXP, SEXP valuesSEXP, SEXP valtypeSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type pM(pMSEXP);
@@ -381,39 +381,39 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_MarsuMatrix_MMatrixAccess", (DL_FUNC) &_MarsuMatrix_MMatrixAccess, 3},
-    {"_MarsuMatrix_MMatrixToRArray", (DL_FUNC) &_MarsuMatrix_MMatrixToRArray, 2},
-    {"_MarsuMatrix_MMatrixToRMatrix", (DL_FUNC) &_MarsuMatrix_MMatrixToRMatrix, 2},
-    {"_MarsuMatrix_copy_values_", (DL_FUNC) &_MarsuMatrix_copy_values_, 3},
-    {"_MarsuMatrix_copy_values_mm_", (DL_FUNC) &_MarsuMatrix_copy_values_mm_, 4},
-    {"_MarsuMatrix_cw_inverse", (DL_FUNC) &_MarsuMatrix_cw_inverse, 2},
-    {"_MarsuMatrix_cw_opposite", (DL_FUNC) &_MarsuMatrix_cw_opposite, 2},
-    {"_MarsuMatrix_cw_sum", (DL_FUNC) &_MarsuMatrix_cw_sum, 3},
-    {"_MarsuMatrix_cw_minus", (DL_FUNC) &_MarsuMatrix_cw_minus, 3},
-    {"_MarsuMatrix_cw_prod", (DL_FUNC) &_MarsuMatrix_cw_prod, 3},
-    {"_MarsuMatrix_cw_div", (DL_FUNC) &_MarsuMatrix_cw_div, 3},
-    {"_MarsuMatrix_cw_sum_mm", (DL_FUNC) &_MarsuMatrix_cw_sum_mm, 4},
-    {"_MarsuMatrix_cw_minus_mm", (DL_FUNC) &_MarsuMatrix_cw_minus_mm, 4},
-    {"_MarsuMatrix_cw_prod_mm", (DL_FUNC) &_MarsuMatrix_cw_prod_mm, 4},
-    {"_MarsuMatrix_cw_div_mm", (DL_FUNC) &_MarsuMatrix_cw_div_mm, 4},
-    {"_MarsuMatrix_extract_marray_to_R", (DL_FUNC) &_MarsuMatrix_extract_marray_to_R, 4},
-    {"_MarsuMatrix_extract_marray_to_marray", (DL_FUNC) &_MarsuMatrix_extract_marray_to_marray, 4},
-    {"_MarsuMatrix_extract_mmatrix_to_R", (DL_FUNC) &_MarsuMatrix_extract_mmatrix_to_R, 5},
-    {"_MarsuMatrix_extract_mmatrix_to_mmatrix", (DL_FUNC) &_MarsuMatrix_extract_mmatrix_to_mmatrix, 5},
-    {"_MarsuMatrix_extract_mvector_to_R", (DL_FUNC) &_MarsuMatrix_extract_mvector_to_R, 4},
-    {"_MarsuMatrix_extract_mvector_to_mvector", (DL_FUNC) &_MarsuMatrix_extract_mvector_to_mvector, 4},
-    {"_MarsuMatrix_isnullptr", (DL_FUNC) &_MarsuMatrix_isnullptr, 1},
-    {"_MarsuMatrix_link_marray", (DL_FUNC) &_MarsuMatrix_link_marray, 3},
-    {"_MarsuMatrix_link_mmatrix", (DL_FUNC) &_MarsuMatrix_link_mmatrix, 4},
-    {"_MarsuMatrix_print_debug", (DL_FUNC) &_MarsuMatrix_print_debug, 2},
-    {"_MarsuMatrix_set_values_marray", (DL_FUNC) &_MarsuMatrix_set_values_marray, 4},
-    {"_MarsuMatrix_set_values_marray_ma", (DL_FUNC) &_MarsuMatrix_set_values_marray_ma, 5},
-    {"_MarsuMatrix_set_values_mmatrix", (DL_FUNC) &_MarsuMatrix_set_values_mmatrix, 5},
-    {"_MarsuMatrix_set_values_mmatrix_mm", (DL_FUNC) &_MarsuMatrix_set_values_mmatrix_mm, 6},
+    {"_houba_MMatrixAccess", (DL_FUNC) &_houba_MMatrixAccess, 3},
+    {"_houba_MMatrixToRArray", (DL_FUNC) &_houba_MMatrixToRArray, 2},
+    {"_houba_MMatrixToRMatrix", (DL_FUNC) &_houba_MMatrixToRMatrix, 2},
+    {"_houba_copy_values_", (DL_FUNC) &_houba_copy_values_, 3},
+    {"_houba_copy_values_mm_", (DL_FUNC) &_houba_copy_values_mm_, 4},
+    {"_houba_cw_inverse", (DL_FUNC) &_houba_cw_inverse, 2},
+    {"_houba_cw_opposite", (DL_FUNC) &_houba_cw_opposite, 2},
+    {"_houba_cw_sum", (DL_FUNC) &_houba_cw_sum, 3},
+    {"_houba_cw_minus", (DL_FUNC) &_houba_cw_minus, 3},
+    {"_houba_cw_prod", (DL_FUNC) &_houba_cw_prod, 3},
+    {"_houba_cw_div", (DL_FUNC) &_houba_cw_div, 3},
+    {"_houba_cw_sum_mm", (DL_FUNC) &_houba_cw_sum_mm, 4},
+    {"_houba_cw_minus_mm", (DL_FUNC) &_houba_cw_minus_mm, 4},
+    {"_houba_cw_prod_mm", (DL_FUNC) &_houba_cw_prod_mm, 4},
+    {"_houba_cw_div_mm", (DL_FUNC) &_houba_cw_div_mm, 4},
+    {"_houba_extract_marray_to_R", (DL_FUNC) &_houba_extract_marray_to_R, 4},
+    {"_houba_extract_marray_to_marray", (DL_FUNC) &_houba_extract_marray_to_marray, 4},
+    {"_houba_extract_mmatrix_to_R", (DL_FUNC) &_houba_extract_mmatrix_to_R, 5},
+    {"_houba_extract_mmatrix_to_mmatrix", (DL_FUNC) &_houba_extract_mmatrix_to_mmatrix, 5},
+    {"_houba_extract_mvector_to_R", (DL_FUNC) &_houba_extract_mvector_to_R, 4},
+    {"_houba_extract_mvector_to_mvector", (DL_FUNC) &_houba_extract_mvector_to_mvector, 4},
+    {"_houba_isnullptr", (DL_FUNC) &_houba_isnullptr, 1},
+    {"_houba_link_marray", (DL_FUNC) &_houba_link_marray, 3},
+    {"_houba_link_mmatrix", (DL_FUNC) &_houba_link_mmatrix, 4},
+    {"_houba_print_debug", (DL_FUNC) &_houba_print_debug, 2},
+    {"_houba_set_values_marray", (DL_FUNC) &_houba_set_values_marray, 4},
+    {"_houba_set_values_marray_ma", (DL_FUNC) &_houba_set_values_marray_ma, 5},
+    {"_houba_set_values_mmatrix", (DL_FUNC) &_houba_set_values_mmatrix, 5},
+    {"_houba_set_values_mmatrix_mm", (DL_FUNC) &_houba_set_values_mmatrix_mm, 6},
     {NULL, NULL, 0}
 };
 
-RcppExport void R_init_MarsuMatrix(DllInfo *dll) {
+RcppExport void R_init_houba(DllInfo *dll) {
     R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
     R_useDynamicSymbols(dll, FALSE);
 }

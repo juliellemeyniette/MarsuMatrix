@@ -17,7 +17,7 @@ void extract_mmatrix_to_R(SEXP pM, std::string datatype, Rcpp::IntegerVector I, 
     Rcpp::XPtr<MMatrix<int>> instanc(pM);
     Rcpp::IntegerMatrix tar(target);
     instanc->extract_matrix(I, J, tar);
-  } else if (datatype == "int16_t") {
+  } else if (datatype == "short") {
     Rcpp::XPtr<MMatrix<int16_t>> instanc(pM);
     Rcpp::IntegerMatrix tar(target);
     instanc->extract_matrix(I, J, tar);
@@ -41,7 +41,7 @@ void extract_mmatrix_to_mmatrix(SEXP pM, std::string datatype, Rcpp::IntegerVect
     Rcpp::XPtr<MMatrix<int>> instanc(pM);
     Rcpp::XPtr<MMatrix<int>> tar(target);
     instanc->extract_matrix(I, J, *tar);
-  } else if (datatype == "int16_t") {
+  } else if (datatype == "short") {
     Rcpp::XPtr<MMatrix<int16_t>> instanc(pM);
     Rcpp::XPtr<MMatrix<int16_t>> tar(target);
     instanc->extract_matrix(I, J, *tar);

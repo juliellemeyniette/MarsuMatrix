@@ -5,22 +5,26 @@
 \alias{mvector-class}
 \title{Class \code{mvector}}
 \description{
-A class for manipulation of memory mapped file
+S4 class for manipulating memory-mapped files as vectors
 }
 \section{Slots}{
 
 \describe{
-\item{\code{ptr}}{\code{externalptr} to an instance of the C++ \code{MMatrix} class, itself handling
-the internal memory structure of the file.}
+\item{\code{ptr}}{\code{externalptr} to an instance of the C++ \code{MMatrix} class}
 
-\item{\code{file}}{\code{character} with the path (absolute) of the file used to store the mmatrix.}
+\item{\code{file}}{\code{character} with the path (absolute) of the file used to store the mvector}
 
-\item{\code{length}}{\code{integer} the length of the vector}
+\item{\code{length}}{An integer giving the length of the mvector}
 
-\item{\code{datatype}}{\code{character} with the C++ underlying datatype.}
+\item{\code{datatype}}{\code{character} giving the C++ underlying datatype.}
 
-\item{\code{readonly}}{\code{logical} Indicates if the matrix if read only.}
+\item{\code{readonly}}{\code{logical} Indicates if the vector if read-only.}
 }}
+
+\section{Objects from the Class}{
+
+Objects can be created by calling \link{mvector}.
+}
 
 \seealso{
 \link{marray-class}, \link{mmatrix-class}

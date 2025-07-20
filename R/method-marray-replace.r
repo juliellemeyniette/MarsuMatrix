@@ -1,7 +1,20 @@
-# ------------------ replacement is an R object --------------------
+#' Read/write access to memory-mapped objects
+#'
+#' @name extract
+#' @rdname extract
+#'
+#' @param x memory-mapped object
+#' @param i,j indices of elements to extract or replace
+#' @param ... supplementary indices (for arrays)
+#' @param value replacement value
+#' @param drop for dual matrices or array.
+#'
+#' @return a R object or a memory-mapped object (depending on \code{houba("max.size")})
+#'
+NULL
 
 replace_value_marray <- function(x, L, value) {
-  if(x@readonly) stop("Read only object")
+  if(x@readonly) stop("Read-only object")
   d <- length(L)
   if(d != length(x@dim)) stop("Incorrect number of dimensions\n")
   tsize <- 1L # target size
@@ -20,7 +33,9 @@ replace_value_marray <- function(x, L, value) {
   x
 }
 
-#' @rdname marray-methods
+# ------------------ replacement is an R object --------------------
+
+#' @rdname extract
 setMethod("[<-", c(x = "marray", i = "numeric", j = "numeric", value = "numeric"),
   function(x, i, j, ..., value) {
     if(...length() != length(x@dim) - 2L)
@@ -38,7 +53,7 @@ setMethod("[<-", c(x = "marray", i = "numeric", j = "numeric", value = "numeric"
   }
 )
 
-#' @rdname marray-methods
+#' @rdname extract
 setMethod("[<-", c(x = "marray", i = "missing", j = "numeric", value = "numeric"),
   function(x, i, j, ..., value) {
     if(...length() != length(x@dim) - 2L)
@@ -56,10 +71,10 @@ setMethod("[<-", c(x = "marray", i = "missing", j = "numeric", value = "numeric"
   }
 )
 
-#' @rdname marray-methods
+#' @rdname extract
 setMethod("[<-", c(x = "marray", i = "numeric", j = "missing", value = "numeric"),
   function(x, i, j, ..., value) {
-    if(nargs() == 2L) { # appel de type x[i]
+    if(nargs() == 3L) { # appel de type x[i] <- value
       extract_mvector(x, i)
     } else {
       if(...length() != length(x@dim) - 2L)
@@ -78,7 +93,7 @@ setMethod("[<-", c(x = "marray", i = "numeric", j = "missing", value = "numeric"
   }
 )
 
-#' @rdname marray-methods 
+#' @rdname extract 
 setMethod("[<-", c(x = "marray", i = "missing", j = "missing", value = "numeric"),
   function(x, i, j, ..., value) {
     # length = 0 correspond à un appel x[] <- value
@@ -102,7 +117,7 @@ setMethod("[<-", c(x = "marray", i = "missing", j = "missing", value = "numeric"
 # ------------------ replacement is a memory mapped object  --------------------
 
 replace_value_marray_ma <- function(x, L, value) {
-  if(x@readonly) stop("Read only object")
+  if(x@readonly) stop("Read-only object")
   d <- length(L)
   if(d != length(x@dim)) stop("Incorrect number of dimensions\n")
   tsize <- 1L # target size
@@ -114,7 +129,7 @@ replace_value_marray_ma <- function(x, L, value) {
   x
 }
 
-#' @rdname marray-methods
+#' @rdname extract
 setMethod("[<-", c(x = "marray", i = "numeric", j = "numeric", value = "memoryMapped"),
   function(x, i, j, ..., value) {
     if(...length() != length(x@dim) - 2L)
@@ -132,7 +147,7 @@ setMethod("[<-", c(x = "marray", i = "numeric", j = "numeric", value = "memoryMa
   }
 )
 
-#' @rdname marray-methods
+#' @rdname extract
 setMethod("[<-", c(x = "marray", i = "missing", j = "numeric", value = "memoryMapped"),
   function(x, i, j, ..., value) {
     if(...length() != length(x@dim) - 2L)
@@ -150,10 +165,10 @@ setMethod("[<-", c(x = "marray", i = "missing", j = "numeric", value = "memoryMa
   }
 )
 
-#' @rdname marray-methods
+#' @rdname extract
 setMethod("[<-", c(x = "marray", i = "numeric", j = "missing", value = "memoryMapped"),
   function(x, i, j, ..., value) {
-    if(nargs() == 2L) { # appel de type x[i]
+    if(nargs() == 3L) { # appel de type x[i] <- value
       extract_mvector(x, i)
     } else {
       if(...length() != length(x@dim) - 2L)
@@ -172,7 +187,7 @@ setMethod("[<-", c(x = "marray", i = "numeric", j = "missing", value = "memoryMa
   }
 )
 
-#' @rdname marray-methods 
+#' @rdname extract 
 setMethod("[<-", c(x = "marray", i = "missing", j = "missing", value = "memoryMapped"),
   function(x, i, j, ..., value) {
     # length = 0 correspond à un appel x[] <- value

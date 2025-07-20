@@ -3,7 +3,6 @@
 %   R/method-mvector-arithmetic.r
 \name{Arithmetic}
 \alias{Arithmetic}
-\alias{same.dim}
 \alias{+,mmatrixOrMarray,mvectorOrNumeric-method}
 \alias{+,mvectorOrNumeric,mmatrixOrMarray-method}
 \alias{+,mmatrixOrMarray,array-method}
@@ -40,8 +39,6 @@
 \alias{/,numeric,mvector-method}
 \title{Arithmetic Operators}
 \usage{
-same.dim(d1, d2)
-
 \S4method{+}{mmatrixOrMarray,mvectorOrNumeric}(e1, e2)
 
 \S4method{+}{mvectorOrNumeric,mmatrixOrMarray}(e1, e2)
@@ -131,5 +128,5 @@ data types, the result will be a memory mapped object with the same data type th
 the left operand.
 }
 \seealso{
-\link{\code{inplace}}
+\link{inplace}
 }

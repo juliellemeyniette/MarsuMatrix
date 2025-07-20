@@ -52,7 +52,7 @@ setMethod("[", c(x = "mmatrix", i = "numeric", j = "numeric", drop = "ANY"),
   }
 )
 
-# @rdname extract 
+#' @rdname extract 
 setMethod("[", c(x = "mmatrix", i = "missing", j = "numeric", drop = "ANY"),
   function(x, i, j, ..., drop) {
     if(...length() > 0) stop("Bad number of dimensions")

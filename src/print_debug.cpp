@@ -13,7 +13,7 @@ void print_debug(SEXP pM, std::string datatype) {
   } else if (datatype == "int") {
     Rcpp::XPtr<MMatrix<int>> instanc(pM);
     Rcpp::Rcout << instanc->getVerbosout();
-  } else if (datatype == "int16_t") {
+  } else if (datatype == "short") {
     Rcpp::XPtr<MMatrix<int16_t>> instanc(pM);
     Rcpp::Rcout << instanc->getVerbosout();
   } else {

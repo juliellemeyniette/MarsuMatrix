@@ -6,24 +6,26 @@
 #include <Rcpp.h>
 
 // [[Rcpp::export]]
-Rcpp::NumericVector MMatrixAccess(SEXP pM, std::string datatype, Rcpp::List L) {
+SEXP MMatrixAccess(SEXP pM, std::string datatype, Rcpp::IntegerVector I) {
     // the default verbose true should 
     // prove that the c° is not called
-    if (datatype == "float") { 
+    if(datatype == "float") { 
         Rcpp::XPtr<MMatrix<float>> instanc(pM);
-        return Rcpp::wrap(instanc->at(L));
+        return Rcpp::wrap(instanc->at(I));
     }
-    else if (datatype == "double") { 
+    else if(datatype == "double") { 
         Rcpp::XPtr<MMatrix<double>> instanc(pM);
-        return Rcpp::wrap(instanc->at(L));
+        return Rcpp::wrap(instanc->at(I));
     }
-    else if (datatype == "int") {
+    else if(datatype == "int") {
         Rcpp::XPtr<MMatrix<int>> instanc(pM);
-        return Rcpp::wrap(instanc->at(L));
+        return Rcpp::wrap(instanc->at(I));
     }
-    else if (datatype == "int16_t") {
+    else if(datatype == "short") {
         Rcpp::XPtr<MMatrix<int16_t>> instanc(pM);
-        return Rcpp::wrap(instanc->at(L));
+        return Rcpp::wrap(instanc->at(I));
     }
-    else return Rcpp::wrap(-1);
+    else {
+      throw std::runtime_error("Unsupported datatype");
+    } 
 }

@@ -47,7 +47,7 @@ myMissing <- function(x) {
   }
 }
 
-#' @rdname marray-methods 
+#' @rdname extract 
 setMethod("[", c(x = "marray", i = "numeric", j = "numeric", drop = "ANY"),
   function(x, i, j, ..., drop) {
     if(...length() != length(x@dim) - 2L)
@@ -65,7 +65,7 @@ setMethod("[", c(x = "marray", i = "numeric", j = "numeric", drop = "ANY"),
   }
 )
 
-#' @rdname marray-methods 
+#' @rdname extract 
 setMethod("[", c(x = "marray", i = "missing", j = "numeric", drop = "ANY"),
   function(x, i, j, ..., drop) { 
     if(...length() != length(x@dim) - 2L)
@@ -83,7 +83,7 @@ setMethod("[", c(x = "marray", i = "missing", j = "numeric", drop = "ANY"),
   }
 )
 
-#' @rdname marray-methods 
+#' @rdname extract 
 setMethod("[", c(x = "marray", i = "numeric", j = "missing", drop = "ANY"),
   function(x, i, j, ..., drop) {
     if(nargs() == 2L) { # appel de type x[i]
@@ -105,7 +105,7 @@ setMethod("[", c(x = "marray", i = "numeric", j = "missing", drop = "ANY"),
   }
 )
 
-#' @rdname marray-methods 
+#' @rdname extract 
 setMethod("[", c(x = "marray", i = "missing", j = "missing", drop = "ANY"),
   function(x, i, j, ..., drop) { 
     # length = 0 correspond à un appel x[]

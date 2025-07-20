@@ -1,18 +1,22 @@
 #' Class \code{mvector}
+#'
 #' @name mvector-class
 #' @docType class
 #'
-#' @description A class for manipulation of memory mapped file
+#' @description S4 class for manipulating memory-mapped files as vectors
 #'
 #' @slot ptr
-#' \code{externalptr} to an instance of the C++ \code{MMatrix} class, itself handling
-#' the internal memory structure of the file.
+#' \code{externalptr} to an instance of the C++ \code{MMatrix} class
 #' @slot file
-#' \code{character} with the path (absolute) of the file used to store the mmatrix. 
-#' @slot length \code{integer} the length of the vector
+#' \code{character} with the path (absolute) of the file used to store the mvector
+#' @slot length 
+#' An integer giving the length of the mvector
 #' @slot datatype
-#' \code{character} with the C++ underlying datatype.
-#' @slot readonly \code{logical} Indicates if the matrix if read only.
+#' \code{character} giving the C++ underlying datatype.
+#' @slot readonly \code{logical} Indicates if the vector if read-only.
+#' 
+#' @section Objects from the Class:
+#' Objects can be created by calling \link{mvector}.
 #'
 #' @seealso \link{marray-class}, \link{mmatrix-class}
 #'
@@ -25,7 +29,7 @@ setMethod("show", "mvector",
       cat("A mvector with a broken external ptr ! Try using restore()\n")
     } else {
       if(object@readonly)
-        cat("A read only ")
+        cat("A read-only ")
       else
         cat("A ")
       cat("mvector of length", object@length, "\n")
@@ -41,4 +45,10 @@ setMethod("show", "mvector",
   }
 )
 
+#' Length of mvector
+#'
+#' @description returns the length of a mvector
+#' @param x mvector
+#'
+#' @export
 setMethod("length", "mvector", function(x) x@length)

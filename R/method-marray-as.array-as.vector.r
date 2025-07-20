@@ -1,8 +1,13 @@
-#' Converting memory mapped vectors (on disk) 
-#' to R vectors (in memory)
+#' Converting memory-mapped objects to R objects
+#'
+#' @rdname as-array
 #' 
+#' @param x memory-mapped object to convert
+#' @param mode the mode oh the created vector
+#' @param ... extra parameters (ignored)
+#'
 #' @exportS3Method as.array marray
-as.array.marray <- function(x) {
+as.array.marray <- function(x, ...) {
   if(isnullptr(x@ptr)) {
     stop("This mvector has a broken ptr, try re-mapping it with restore()")
   } else {
@@ -10,6 +15,7 @@ as.array.marray <- function(x) {
   }
 }
 
+#' @rdname as-array
 #' @exportS3Method as.vector marray
 as.vector.marray <- function(x, mode = "any") {
   if(isnullptr(x@ptr)) {

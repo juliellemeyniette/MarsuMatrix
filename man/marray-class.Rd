@@ -5,32 +5,27 @@
 \alias{marray-class}
 \title{Class \code{"marray"}}
 \description{
-S4 class for memory-mapped arrays
+S4 class for manipulating memory-mapped files as arrays
 }
 \section{Slots}{
 
 \describe{
-\item{\code{ptr}}{\code{externalptr} to an instance of the C++ \code{MMatrix} class, itself handling
-the internal memory structure of the file.}
+\item{\code{ptr}}{\code{externalptr} to an instance of the C++ \code{MMatrix} class}
 
-\item{\code{file}}{\code{character} with the path (absolute) of the file used to store the mmatrix.}
+\item{\code{file}}{\code{character} with the path (absolute) of the file used to store the marray.}
 
-\item{\code{dim}}{\code{vector} keeping the dimensions of the matrix. Using \code{ncol(x = mmatrix)} or \code{nrow(x = mmatrix)}
-will respectively link to \code{dim[1]} and \code{dim[2]}
-because the size of mapping depends on this dim, changing it should not be possible nor effective}
+\item{\code{dim}}{An integer vector giving the dimensions of the marray.}
 
-\item{\code{datatype}}{\code{character} with the C++ underlying datatype.}
+\item{\code{datatype}}{\code{character} giving the C++ underlying datatype.}
 
-\item{\code{readonly}}{\code{logical} Indicates if the matrix if read only.}
+\item{\code{readonly}}{\code{logical} Indicates if the array if read-only.}
 }}
 
 \section{Objects from the Class}{
 
-Objects can be created by calls of the form \code{marray(...)}.
+Objects can be created by calling \link{marray}.
 }
 
 \seealso{
 \link{mmatrix-class}, \link{mvector-class}
-
-\link{read.mmatrix}, \link{as.matrix.mmatrix}, \link{create.descriptor.file}
 }

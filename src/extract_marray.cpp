@@ -23,7 +23,7 @@ void extract_marray_to_R(SEXP pM, std::string datatype, Rcpp::List L, SEXP targe
     Rcpp::IntegerVector tar(target);
     instanc->extract_array(IND, tar);
     tar.attr("dim") = dim;
-  } else if (datatype == "int16_t") {
+  } else if (datatype == "short") {
     Rcpp::XPtr<MMatrix<int16_t>> instanc(pM);
     Rcpp::IntegerVector tar(target);
     instanc->extract_array(IND, tar);
@@ -50,7 +50,7 @@ void extract_marray_to_marray(SEXP pM, std::string datatype, Rcpp::List L, SEXP 
     Rcpp::XPtr<MMatrix<int>> instanc(pM);
     Rcpp::XPtr<MMatrix<int>> tar(target);
     instanc->extract_array(IND, *tar);
-  } else if (datatype == "int16_t") {
+  } else if (datatype == "short") {
     Rcpp::XPtr<MMatrix<int16_t>> instanc(pM);
     Rcpp::XPtr<MMatrix<int16_t>> tar(target);
     instanc->extract_array(IND, *tar);

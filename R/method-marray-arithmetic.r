@@ -1,3 +1,10 @@
+same.dim <- function(d1, d2) {
+  if(length(d1) == length(d2))
+    all(d1 == d2)
+  else
+    FALSE
+}
+
 #' @title Arithmetic Operators
 #'
 #' @description Arithmetic operators for memory mapped objects
@@ -19,17 +26,9 @@
 #' @return an object of class mvector, mmatrix or marray depending on 
 #' the operand classes.
 #'
-#' @seealso \link{\code{inplace}}
+#' @seealso \link{inplace}
 #'
-
-same.dim <- function(d1, d2) {
-  if(length(d1) == length(d2))
-    all(d1 == d2)
-  else
-    FALSE
-}
-
-## ---- addition ----
+NULL
 
 #' @rdname Arithmetic
 setMethod("+", c(e1 = "mmatrixOrMarray", e2 = "mvectorOrNumeric"), 

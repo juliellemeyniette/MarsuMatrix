@@ -11,18 +11,26 @@
 #'
 #' @examples # 
 #' @export
-inplace.inverse <- function(x) cw_inverse(x@ptr, x@datatype)
+inplace.inverse <- function(x) {
+  if(x@readonly) stop("Read-only object")
+  cw_inverse(x@ptr, x@datatype)
+}
 
 #' @rdname inplace
 #' @export
-inplace.opposite <- function(x) cw_opposite(x@ptr, x@datatype)
+inplace.opposite <- function(x) {
+  if(x@readonly) stop("Read-only object")
+  cw_opposite(x@ptr, x@datatype)
+}
 
 #' @rdname inplace
 #' @export
 inplace.sum <- function(x, y) UseMethod("inplace.sum")
 
+#' @rdname inplace
 setMethod("inplace.sum", c(x = "memoryMapped", y = "numeric"),
   function(x, y) {
+    if(x@readonly) stop("Read-only object")
     if(x@datatype == "float" | x@datatype == "double") {
       y <- as.double(y)
     } else if(x@datatype == "int" | x@datatype == "short") {
@@ -34,8 +42,10 @@ setMethod("inplace.sum", c(x = "memoryMapped", y = "numeric"),
   }
 )
 
+#' @rdname inplace
 setMethod("inplace.sum", c(x = "memoryMapped", y = "memoryMapped"),
   function(x, y) {
+    if(x@readonly) stop("Read-only object")
     cw_sum_mm(x@ptr, x@datatype, y@ptr, y@datatype)
   }
 )
@@ -45,8 +55,10 @@ setMethod("inplace.sum", c(x = "memoryMapped", y = "memoryMapped"),
 #' @export
 inplace.minus <- function(x, y) UseMethod("inplace.minus")
 
+#' @rdname inplace
 setMethod("inplace.minus", c(x = "memoryMapped", y = "numeric"),
   function(x, y) {
+    if(x@readonly) stop("Read-only object")
     if(x@datatype == "float" | x@datatype == "double") {
       y <- as.double(y)
     } else if(x@datatype == "int" | x@datatype == "short") {
@@ -58,8 +70,10 @@ setMethod("inplace.minus", c(x = "memoryMapped", y = "numeric"),
   }
 )
 
+#' @rdname inplace
 setMethod("inplace.minus", c(x = "memoryMapped", y = "memoryMapped"),
   function(x, y) {
+    if(x@readonly) stop("Read-only object")
     cw_minus_mm(x@ptr, x@datatype, y@ptr, y@datatype)
   }
 )
@@ -69,8 +83,10 @@ setMethod("inplace.minus", c(x = "memoryMapped", y = "memoryMapped"),
 #' @export
 inplace.prod <- function(x, y) UseMethod("inplace.prod")
 
+#' @rdname inplace
 setMethod("inplace.prod", c(x = "memoryMapped", y = "numeric"),
   function(x, y) {
+    if(x@readonly) stop("Read-only object")
     if(x@datatype == "float" | x@datatype == "double") {
       y <- as.double(y)
     } else if(x@datatype == "int" | x@datatype == "short") {
@@ -82,8 +98,10 @@ setMethod("inplace.prod", c(x = "memoryMapped", y = "numeric"),
   }
 )
 
+#' @rdname inplace
 setMethod("inplace.prod", c(x = "memoryMapped", y = "memoryMapped"),
   function(x, y) {
+    if(x@readonly) stop("Read-only object")
     cw_prod_mm(x@ptr, x@datatype, y@ptr, y@datatype)
   }
 )
@@ -92,8 +110,10 @@ setMethod("inplace.prod", c(x = "memoryMapped", y = "memoryMapped"),
 #' @export
 inplace.div <- function(x, y) UseMethod("inplace.div")
 
+#' @rdname inplace
 setMethod("inplace.div", c(x = "memoryMapped", y = "numeric"),
   function(x, y) {
+    if(x@readonly) stop("Read-only object")
     if(x@datatype == "float" | x@datatype == "double") {
       y <- as.double(y)
     } else if(x@datatype == "int" | x@datatype == "short") {
@@ -105,8 +125,10 @@ setMethod("inplace.div", c(x = "memoryMapped", y = "numeric"),
   }
 )
 
+#' @rdname inplace
 setMethod("inplace.div", c(x = "memoryMapped", y = "memoryMapped"),
   function(x, y) {
+    if(x@readonly) stop("Read-only object")
     cw_div_mm(x@ptr, x@datatype, y@ptr, y@datatype)
   }
 )

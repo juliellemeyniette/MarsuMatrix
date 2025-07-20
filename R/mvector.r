@@ -1,8 +1,9 @@
+#' @rdname marray
 #' @export
-mvector <- function(type = c("double", "float", "int"), length, filename) {
+mvector <- function(type = c("double", "float", "int"), length, filename, readonly) {
   type <- match.arg(type)
   if(missing(filename)) filename <- tempfile("mmatrix")
-  readonly <- file.exists(filename)
+  if(missing(readonly)) readonly <- file.exists(filename)
   # on the C++ size mvector are mmatrices with ncol = 1
   ptr <- link_mmatrix(type, filename, length, 1L)
   if(isnullptr(ptr)) stop("Failed to map the mvector")
