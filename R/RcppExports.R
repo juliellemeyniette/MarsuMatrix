@@ -5,8 +5,68 @@ MMatrixAccess <- function(pM, datatype, L) {
     .Call(`_MarsuMatrix_MMatrixAccess`, pM, datatype, L)
 }
 
+MMatrixToRArray <- function(pM, datatype) {
+    .Call(`_MarsuMatrix_MMatrixToRArray`, pM, datatype)
+}
+
 MMatrixToRMatrix <- function(pM, datatype) {
     .Call(`_MarsuMatrix_MMatrixToRMatrix`, pM, datatype)
+}
+
+copy_values_ <- function(pM, datatype, values) {
+    invisible(.Call(`_MarsuMatrix_copy_values_`, pM, datatype, values))
+}
+
+copy_values_mm_ <- function(pM, datatype, values, valtype) {
+    invisible(.Call(`_MarsuMatrix_copy_values_mm_`, pM, datatype, values, valtype))
+}
+
+cw_inverse <- function(pM, datatype) {
+    invisible(.Call(`_MarsuMatrix_cw_inverse`, pM, datatype))
+}
+
+cw_opposite <- function(pM, datatype) {
+    invisible(.Call(`_MarsuMatrix_cw_opposite`, pM, datatype))
+}
+
+cw_sum <- function(pM, datatype, e2_) {
+    invisible(.Call(`_MarsuMatrix_cw_sum`, pM, datatype, e2_))
+}
+
+cw_minus <- function(pM, datatype, e2_) {
+    invisible(.Call(`_MarsuMatrix_cw_minus`, pM, datatype, e2_))
+}
+
+cw_prod <- function(pM, datatype, e2_) {
+    invisible(.Call(`_MarsuMatrix_cw_prod`, pM, datatype, e2_))
+}
+
+cw_div <- function(pM, datatype, e2_) {
+    invisible(.Call(`_MarsuMatrix_cw_div`, pM, datatype, e2_))
+}
+
+cw_sum_mm <- function(pM, datatype, e2, e2type) {
+    invisible(.Call(`_MarsuMatrix_cw_sum_mm`, pM, datatype, e2, e2type))
+}
+
+cw_minus_mm <- function(pM, datatype, e2, e2type) {
+    invisible(.Call(`_MarsuMatrix_cw_minus_mm`, pM, datatype, e2, e2type))
+}
+
+cw_prod_mm <- function(pM, datatype, e2, e2type) {
+    invisible(.Call(`_MarsuMatrix_cw_prod_mm`, pM, datatype, e2, e2type))
+}
+
+cw_div_mm <- function(pM, datatype, e2, e2type) {
+    invisible(.Call(`_MarsuMatrix_cw_div_mm`, pM, datatype, e2, e2type))
+}
+
+extract_marray_to_R <- function(pM, datatype, L, target) {
+    invisible(.Call(`_MarsuMatrix_extract_marray_to_R`, pM, datatype, L, target))
+}
+
+extract_marray_to_marray <- function(pM, datatype, L, target) {
+    invisible(.Call(`_MarsuMatrix_extract_marray_to_marray`, pM, datatype, L, target))
 }
 
 extract_mmatrix_to_R <- function(pM, datatype, I, J, target) {
@@ -29,12 +89,24 @@ isnullptr <- function(pointer) {
     .Call(`_MarsuMatrix_isnullptr`, pointer)
 }
 
+link_marray <- function(datatype, file, dim) {
+    .Call(`_MarsuMatrix_link_marray`, datatype, file, dim)
+}
+
 link_mmatrix <- function(datatype, file, nrow, ncol) {
     .Call(`_MarsuMatrix_link_mmatrix`, datatype, file, nrow, ncol)
 }
 
 print_debug <- function(pM, datatype) {
     invisible(.Call(`_MarsuMatrix_print_debug`, pM, datatype))
+}
+
+set_values_marray <- function(pM, datatype, L, values) {
+    invisible(.Call(`_MarsuMatrix_set_values_marray`, pM, datatype, L, values))
+}
+
+set_values_marray_ma <- function(pM, datatype, L, values, valtype) {
+    invisible(.Call(`_MarsuMatrix_set_values_marray_ma`, pM, datatype, L, values, valtype))
 }
 
 set_values_mmatrix <- function(pM, datatype, I, J, values) {

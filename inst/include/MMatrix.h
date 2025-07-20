@@ -69,9 +69,17 @@ public:
     template <typename intVec>
     T & at(const intVec & index) const;
 
-    // setting values
+    // copy values "as a vector" (with recycling)
+    template <typename Tvec>
+    void copy_values(Tvec & values);
+
+    // setting values for matrices
     template <typename intVec, typename Tvec>
     void set_values_matrix(const intVec & I, const intVec & J, Tvec & values);
+
+    // setting values for arrays
+    template <typename intVec, typename Tvec>
+    void set_values_array(const std::vector<intVec> & I, Tvec & values);
  
     // extraction for object seen as a vector
     template <typename intVec, typename targetVec>
@@ -85,10 +93,22 @@ public:
     template <typename intVec, typename targetVec>
     void extract_array(const std::vector<intVec> & I, targetVec & target) const;
 
+    // component wise arithmetic
+    template <typename Tvec>
+    void cw_sum(Tvec & e2);
+    template <typename Tvec>
+    void cw_minus(Tvec & e2);
+    template <typename Tvec>
+    void cw_prod(Tvec & e2);
+    template <typename Tvec>
+    void cw_div(Tvec & e2);
+    void cw_inverse();
+    void cw_opposite();
+
 private:
     // auxiliary function for extract_array
     template<typename intVec>
-    void indices(const std::vector<intVec> & I, const std::vector<size_t> & Le, size_t d, std::vector<size_t> & ind);
+    void indices(const std::vector<intVec> & I, std::vector<size_t> & ind) const;
 
 protected:
     // Number of columns of the matrix, (base 1).

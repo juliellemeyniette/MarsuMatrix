@@ -26,7 +26,7 @@ houba <- function(...) {
         warning(naL[i], " is not a known option")
         next
       }
-      assign(naL[i], L[[i]], envir = houba.hop)
+      assign(naL[i], unname(L[[i]]), envir = houba.hop)
       R[[ naL[i] ]] <- L[[i]]
     } else {
       R[[ L[[i]] ]] <- houba.hop[[ L[[i]] ]]

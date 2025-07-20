@@ -6,7 +6,6 @@
 #' 
 #' @section Objects from the Class:
 #' Objects can be created by calls of the form \code{mmatrix(...)}.
-#' @seealso \link{mmatrix}
 #'
 #' @slot ptr
 #' \code{externalptr} to an instance of the C++ \code{MMatrix} class, itself handling
@@ -19,6 +18,7 @@
 #' because the size of mapping depends on this dim, changing it should not be possible nor effective
 #' @slot datatype
 #' \code{character} with the C++ underlying datatype.
+#' @slot readonly \code{logical} Indicates if the matrix if read only.
 #' 
 #' 
 #' @section Methods:
@@ -43,19 +43,22 @@
 #' \cr Takes a descriptor.file and use it to open an mmatrix.
 #' }
 #' }
+#' @seealso \link{marray-class}, \link{mvector-class}
 #' @seealso \link{read.mmatrix}, \link{as.matrix.mmatrix}, \link{create.descriptor.file}
-
+#'
 #' @exportClass mmatrix
-#'
-#'
-setClass("mmatrix", slots = c(ptr = "externalptr", file = "character", dim = "integer", datatype = "character"))
+setClass("mmatrix", slots = c(ptr = "externalptr", file = "character", dim = "integer", datatype = "character", readonly = "logical"))
 
 setMethod("show", "mmatrix",
   function(object) {
     if(isnullptr(object@ptr)) {
       cat("A mmatrix with a broken external ptr ! Try using restore()\n")
     } else {
-      cat("A mmatrix with", nrow(object), "rows and", ncol(object), "cols\n")
+      if(object@readonly)
+        cat("A read only ")
+      else
+        cat("A ")
+      cat("mmatrix with", nrow(object), "rows and", ncol(object), "cols\n")
       cat("data type: ", object@datatype, "\n")
       cat("File:", object@file, "\n")
       cat("--- excerpt\n")

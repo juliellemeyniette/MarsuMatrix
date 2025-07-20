@@ -2,3 +2,5 @@
   le fichier n'a pas la bonne taille
 
 * Les fonctions de remplacement ne sont pas safe ! Verifier les bornes (ou utiliser at(), est-ce que c'est possible ?)
+
+* @readonly + vérfier dans [<- et dans copy_values copy_values_mm
