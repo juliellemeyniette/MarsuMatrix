@@ -43,6 +43,10 @@ public:
     bool verbose() const;
     std::string getVerbosout() const;
 
+    // Setter for dimension
+    template <typename intVec> 
+    void setDim(intVec newdims);
+ 
     // a function for tests
     template <typename U>
     std::vector<U> sum() const;

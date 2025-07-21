@@ -9,7 +9,7 @@
 marray(type = c("double", "float", "int", "short"), dim, filename, readonly)
 
 mmatrix(
-  type = c("double", "float", "int", "int16_t"),
+  type = c("double", "float", "int", "short"),
   nrow,
   ncol,
   filename,

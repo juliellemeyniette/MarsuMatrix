@@ -186,8 +186,30 @@ template <typename T>
 std::string MMatrix<T>::getVerbosout() const {
     return verbosout_.str();
 }
-// no setters, but I don't really see the need...
 
+
+// Setter for dimension
+template <typename T>
+template <typename intVec>
+void MMatrix<T>::setDim(intVec newdims) {
+  // check if new dimensions are compatible with file size
+  size_t size = 1;
+  for (size_t d : newdims) {
+    size *= d;
+  }
+  if(size != size_)  
+    throw std::runtime_error("Dimensions product does not match the size of object"); 
+  // resize !
+  dim_.clear();
+  for(size_t d : newdims) dim_.push_back(d);
+  if(dim_.size() == 2) {
+    nrow_ = dim_[0];
+    ncol_ = dim_[1];
+  } else {
+    nrow_ = 0;
+    ncol_ = 0;
+  }
+}
 
 // ----------------- operator [] --------------------------
 // Operator [] gives back the data at index, UNSAFE.

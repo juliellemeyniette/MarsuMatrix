@@ -117,3 +117,7 @@ set_values_mmatrix_mm <- function(pM, datatype, I, J, values, valtype) {
     invisible(.Call(`_houba_set_values_mmatrix_mm`, pM, datatype, I, J, values, valtype))
 }
 
+setdims <- function(pM, datatype, Dims) {
+    invisible(.Call(`_houba_setdims`, pM, datatype, Dims))
+}
+

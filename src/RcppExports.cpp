@@ -379,6 +379,18 @@ BEGIN_RCPP
     return R_NilValue;
 END_RCPP
 }
+// setdims
+void setdims(SEXP pM, std::string datatype, Rcpp::IntegerVector Dims);
+RcppExport SEXP _houba_setdims(SEXP pMSEXP, SEXP datatypeSEXP, SEXP DimsSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type pM(pMSEXP);
+    Rcpp::traits::input_parameter< std::string >::type datatype(datatypeSEXP);
+    Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type Dims(DimsSEXP);
+    setdims(pM, datatype, Dims);
+    return R_NilValue;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_houba_MMatrixAccess", (DL_FUNC) &_houba_MMatrixAccess, 3},
@@ -410,6 +422,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_houba_set_values_marray_ma", (DL_FUNC) &_houba_set_values_marray_ma, 5},
     {"_houba_set_values_mmatrix", (DL_FUNC) &_houba_set_values_mmatrix, 5},
     {"_houba_set_values_mmatrix_mm", (DL_FUNC) &_houba_set_values_mmatrix_mm, 6},
+    {"_houba_setdims", (DL_FUNC) &_houba_setdims, 3},
     {NULL, NULL, 0}
 };
 
