@@ -1,6 +1,6 @@
 #' @rdname marray
 #' @export
-mmatrix <- function(type = c("double", "float", "int", "int16_t"), nrow, ncol, filename, readonly) {
+mmatrix <- function(type = c("double", "float", "int", "short"), nrow, ncol, filename, readonly) {
   type <- match.arg(type)
   if(missing(filename)) filename <- tempfile("mmatrix")
   if(missing(readonly)) readonly <- file.exists(filename)
