@@ -1,6 +1,5 @@
 #include "MMatrix_methods.h"
 #include <iostream>
-#include <cstdint> // for int16_t
 #include <Rcpp.h>
 
 // I have to use SEXP as an argument because I don't 
@@ -45,8 +44,8 @@ SEXP MMatrixToRMatrix(SEXP pM, std::string datatype) {
       }
     }
     return R;
-  } else if (datatype == "int16_t") {
-    Rcpp::XPtr<MMatrix<int16_t>> instanc(pM);
+  } else if (datatype == "short") {
+    Rcpp::XPtr<MMatrix<short>> instanc(pM);
     unsigned int ncol = instanc->ncol();
     unsigned int nrow = instanc->nrow();
     Rcpp::IntegerMatrix R(nrow, ncol);

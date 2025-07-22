@@ -1,6 +1,5 @@
 #include "MMatrix_methods.h"
 #include <iostream>
-#include <cstdint> // for int16_t
 #include <Rcpp.h>
 
 // ici values est un R vector
@@ -18,8 +17,8 @@ void set_values_mmatrix(SEXP pM, std::string datatype, Rcpp::IntegerVector I, Rc
     Rcpp::XPtr<MMatrix<int>> instanc(pM);
     Rcpp::IntegerVector val(values);
     instanc->set_values_matrix(I, J, val);
-  } else if (datatype == "int16_t") {
-    Rcpp::XPtr<MMatrix<int16_t>> instanc(pM);
+  } else if (datatype == "short") {
+    Rcpp::XPtr<MMatrix<short>> instanc(pM);
     Rcpp::IntegerVector val(values);
     instanc->set_values_matrix(I, J, val);
    }
@@ -42,8 +41,8 @@ void set_values_mmatrix_mm(SEXP pM, std::string datatype, Rcpp::IntegerVector I,
     } else if(valtype == "int") {
       Rcpp::XPtr<MMatrix<int>> val(values);
       instanc->set_values_matrix(I, J, *val);
-    } else if (valtype == "int16_t") {
-      Rcpp::XPtr<MMatrix<int16_t>> val(values);
+    } else if (valtype == "short") {
+      Rcpp::XPtr<MMatrix<short>> val(values);
       instanc->set_values_matrix(I, J, *val);
     } else {
     throw std::runtime_error("Unsupported datatype for values for now !");
@@ -59,8 +58,8 @@ void set_values_mmatrix_mm(SEXP pM, std::string datatype, Rcpp::IntegerVector I,
     } else if(valtype == "int") {
       Rcpp::XPtr<MMatrix<int>> val(values);
       instanc->set_values_matrix(I, J, *val);
-    } else if (valtype == "int16_t") {
-      Rcpp::XPtr<MMatrix<int16_t>> val(values);
+    } else if (valtype == "short") {
+      Rcpp::XPtr<MMatrix<short>> val(values);
       instanc->set_values_matrix(I, J, *val);
     } else {
     throw std::runtime_error("Unsupported datatype for values for now !");
@@ -76,14 +75,14 @@ void set_values_mmatrix_mm(SEXP pM, std::string datatype, Rcpp::IntegerVector I,
     } else if(valtype == "int") {
       Rcpp::XPtr<MMatrix<int>> val(values);
       instanc->set_values_matrix(I, J, *val);
-    } else if (valtype == "int16_t") {
-      Rcpp::XPtr<MMatrix<int16_t>> val(values);
+    } else if (valtype == "short") {
+      Rcpp::XPtr<MMatrix<short>> val(values);
       instanc->set_values_matrix(I, J, *val);
     } else {
     throw std::runtime_error("Unsupported datatype for values for now !");
     }
-  } else if (datatype == "int16_t") {
-    Rcpp::XPtr<MMatrix<int16_t>> instanc(pM);
+  } else if (datatype == "short") {
+    Rcpp::XPtr<MMatrix<short>> instanc(pM);
     if(valtype == "float") {
       Rcpp::XPtr<MMatrix<float>> val(values);
       instanc->set_values_matrix(I, J, *val);
@@ -93,8 +92,8 @@ void set_values_mmatrix_mm(SEXP pM, std::string datatype, Rcpp::IntegerVector I,
     } else if(valtype == "int") {
       Rcpp::XPtr<MMatrix<int>> val(values);
       instanc->set_values_matrix(I, J, *val);
-    } else if (valtype == "int16_t") {
-      Rcpp::XPtr<MMatrix<int16_t>> val(values);
+    } else if (valtype == "short") {
+      Rcpp::XPtr<MMatrix<short>> val(values);
       instanc->set_values_matrix(I, J, *val);
     } else {
     throw std::runtime_error("Unsupported datatype for values for now !");

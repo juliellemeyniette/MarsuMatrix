@@ -2,11 +2,10 @@
 #' @name mmatrix-class
 #' @docType class
 #' 
-#' @description  S4 class for memory-mapped matrices of type \code{double}, \code{float}, \code{int} and \code{int16_t}
+#' @description  S4 class for memory-mapped matrices of type \code{double}, \code{float}, \code{int} and \code{short}
 #' 
 #' @section Objects from the Class:
-#' Objects can be created by calls of the form \code{mmatrix(...)}.
-#' @seealso \link{mmatrix}
+#' Objects can be created by calls of the form \code{mmatrix(...)}, using the \link{mmatrix} function.
 #'
 #' @slot ptr
 #' \code{externalptr} to an instance of the C++ \code{MMatrix} class, itself handling
@@ -20,6 +19,10 @@
 #' @slot datatype
 #' \code{character} with the C++ underlying datatype.
 #' 
+#' @details
+#' If you wish to work with a matrix with a \code{ncol == 1}, try looking into
+#' the \link{mvector-class}.
+#'
 #' 
 #' @section Methods:
 #' \describe{
@@ -27,7 +30,7 @@
 #' \cr Extract a sub-matrix (a new \code{mmatrix}). }
 #' 
 #' \item{as.matrix}{\code{signature(x = "mmatrix")}:
-#' \cr Convert a \code{mmatrix} into a \code{matrix}.
+#' \cr Convert a \code{mmatrix} into a \link{matrix}.
 #' The whole point of this package was to NOT have an enormous matrix object,
 #' but you can use this method for a small mmatrix or a snippet !}
 #' 
@@ -40,11 +43,18 @@
 #' }
 #' 
 #' \item{read.mmatrix}{\code{signature(x = "basename")}:
-#' \cr Takes a descriptor.file and use it to open an mmatrix.
+#' \cr Take a descriptor.file and use it to open an mmatrix.
+#' }
+#' 
+#' \item{restore}{\code{signature(x = "mmatrix")}:
+#' \cr Regain access to the \code{mmatrix} content when the \code{ptr} to it is broken (null)
+#' by remapping the file.
 #' }
 #' }
-#' @seealso \link{read.mmatrix}, \link{as.matrix.mmatrix}, \link{create.descriptor.file}
-
+#' @seealso \link{read.mmatrix}, \link{as.matrix.mmatrix}, \link{create.descriptor.file}, \link{restore.mmatrix}
+#' @examples
+#' 
+#' showClass("mmatrix")
 #' @exportClass mmatrix
 #'
 #'

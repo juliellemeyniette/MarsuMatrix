@@ -13,8 +13,8 @@ SEXP link_mmatrix(std::string datatype, std::string file, size_t nrow, size_t nc
     } else if (datatype == "int") {
         Rcpp::XPtr<MMatrix<int>> MMatrix_ptr(new MMatrix<int>(file, nrow, ncol));
         return MMatrix_ptr;
-    } else if (datatype == "int16_t") {
-        Rcpp::XPtr<MMatrix<int16_t>> MMatrix_ptr(new MMatrix<int16_t>(file, nrow, ncol));
+    } else if (datatype == "short") {
+        Rcpp::XPtr<MMatrix<short>> MMatrix_ptr(new MMatrix<short>(file, nrow, ncol));
         return MMatrix_ptr;
     } else {
         throw std::runtime_error("Type of mmatrix (" + datatype + ") is unimplemented");

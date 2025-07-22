@@ -38,7 +38,7 @@ stopifnot( all(as.vector(V[3:6]) == c(pi, pi, 0, 0)) )
 
 
 # int_16 matrix
-C <- mmatrix("int16_t", 10, 20)
+C <- mmatrix("short", 10, 20)
 C[1, ] <- 1
 C[2, ] <- 2
 C[3, ] <- 3

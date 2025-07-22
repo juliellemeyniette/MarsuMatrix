@@ -411,9 +411,9 @@ inline std::string get_type_name()
     {
         return "double";
     } 
-    else if (std::is_same<T, int16_t>::value)
+    else if (std::is_same<T, short>::value)
     {
-        return "int16_t";
+        return "short";
     }
     else if (std::is_same<T, char>::value)
     {
