@@ -14,7 +14,7 @@ void print_debug(SEXP pM, std::string datatype) {
     Rcpp::XPtr<MMatrix<int>> instanc(pM);
     Rcpp::Rcout << instanc->getVerbosout();
   } else if (datatype == "short") {
-    Rcpp::XPtr<MMatrix<short>> instanc(pM);
+    Rcpp::XPtr<MMatrix<int16_t>> instanc(pM);
     Rcpp::Rcout << instanc->getVerbosout();
   } else {
     throw std::runtime_error("Unsupported datatypes for now !");

@@ -1,6 +1,7 @@
 # ------------------ replacement is an R object --------------------
 
 replace_value_mmatrix <- function(x, i, j, value) {
+  if(x@readonly) stop("Read-only object")
   I <- as.integer(i) - 1L
   J <- as.integer(j) - 1L
   if(x@datatype == "float" | x@datatype == "double") {
@@ -33,7 +34,7 @@ setMethod("[<-", c(x = "mmatrix", i = "missing", j = "numeric", value = "numeric
 #' @rdname extract 
 setMethod("[<-", c(x = "mmatrix", i = "numeric", j = "missing", value = "numeric"),
   function(x, i, j, ..., value) {
-    if(nargs() == 2L) { # appel x[i] <- value
+    if(nargs() == 3L) { # appel x[i] <- value
       replace_value_mvector(x, i, value)
     } else {
       if(...length() > 0) stop("Bad number of dimensions")
@@ -46,15 +47,15 @@ setMethod("[<-", c(x = "mmatrix", i = "numeric", j = "missing", value = "numeric
 setMethod("[<-", c(x = "mmatrix", i = "missing", j = "missing", value = "numeric"),
   function(x, i, j, ..., value) {
     if(...length() > 0) stop("Bad number of dimensions")
-    replace_value_mmatrix(x, 1:nrow(x), 1:ncol(x), value)
+    copy_values(x, value)
   }
 )
 
 
 # --------------------------------- replacement is an mmatrix or an mvector
 
-
 replace_value_mmatrix_mm <- function(x, i, j, value) {
+  if(x@readonly) stop("Read-only object")
   I <- as.integer(i) - 1L
   J <- as.integer(j) - 1L
   set_values_mmatrix_mm(x@ptr, x@datatype, I, J, value@ptr, value@datatype)
@@ -80,7 +81,7 @@ setMethod("[<-", c(x = "mmatrix", i = "missing", j = "numeric", value = "memoryM
 #' @rdname extract 
 setMethod("[<-", c(x = "mmatrix", i = "numeric", j = "missing", value = "memoryMapped"),
   function(x, i, j, ..., value) {
-    if(nargs() == 2L) { # appel x[i] <- value
+    if(nargs() == 3L) { # appel x[i] <- value
       replace_value_mvector_mm(x, i, value)
     } else {
       if(...length() > 0) stop("Bad number of dimensions")
@@ -93,6 +94,6 @@ setMethod("[<-", c(x = "mmatrix", i = "numeric", j = "missing", value = "memoryM
 setMethod("[<-", c(x = "mmatrix", i = "missing", j = "missing", value = "memoryMapped"),
   function(x, i, j, ..., value) {
     if(...length() > 0) stop("Bad number of dimensions")
-    replace_value_mmatrix_mm(x, 1:nrow(x), 1:ncol(x), value)
+    copy_values_mm(x, value)
   }
 )

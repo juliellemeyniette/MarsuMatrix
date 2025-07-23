@@ -1,6 +1,4 @@
-#' Converting memory mapped vectors (on disk) 
-#' to R vectors (in memory)
-#' 
+#' @rdname as-array
 #' @exportS3Method as.vector mvector
 as.vector.mvector <- function(x, mode = "any") {
   if(isnullptr(x@ptr)) {

@@ -1,7 +1,28 @@
+#' Restore memory-mapped matrix
+#'
+#' @rdname restore
+#' @param object a memory mapped matrix
+#' @description When the external pointer is broken, 
+#' attempt to recreate a valid object, if the file still exists.
+#'
+#' @return a memory-mapped object
+#'
 #' @export
 setGeneric("restore", function(object) standardGeneric("restore"))
 
-#' @export
+#' @rdname restore
+setMethod("restore", "marray",
+  function(object) {
+    if(!isnullptr(object@ptr)) {
+      stop("This marray doesn't need to be restored !")
+    } else {
+      object@ptr = link_marray(object@datatype, object@file, object@dim)
+    }
+    object
+  }
+)
+
+#' @rdname restore
 setMethod("restore", "mmatrix",
   function(object) {
     if(!isnullptr(object@ptr)) {
@@ -13,7 +34,7 @@ setMethod("restore", "mmatrix",
   }
 )
 
-#' @export
+#' @rdname restore
 setMethod("restore", "mvector",
   function(object) {
     if(!isnullptr(object@ptr)) {

@@ -18,7 +18,7 @@ void extract_mvector_to_R(SEXP pM, std::string datatype, Rcpp::IntegerVector I, 
     Rcpp::IntegerVector tar(target);
     instanc->extract_vector(I, tar);
   } else if (datatype == "short") {
-    Rcpp::XPtr<MMatrix<short>> instanc(pM);
+    Rcpp::XPtr<MMatrix<int16_t>> instanc(pM);
     Rcpp::IntegerVector tar(target);
     instanc->extract_vector(I, tar);
   } else {
@@ -42,8 +42,8 @@ void extract_mvector_to_mvector(SEXP pM, std::string datatype, Rcpp::IntegerVect
     Rcpp::XPtr<MMatrix<int>> tar(target);
     instanc->extract_vector(I, *tar);
   } else if (datatype == "short") {
-    Rcpp::XPtr<MMatrix<short>> instanc(pM);
-    Rcpp::XPtr<MMatrix<short>> tar(target);
+    Rcpp::XPtr<MMatrix<int16_t>> instanc(pM);
+    Rcpp::XPtr<MMatrix<int16_t>> tar(target);
     instanc->extract_vector(I, *tar);
   } else {
     throw std::runtime_error("Unsupported datatype for now !");

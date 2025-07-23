@@ -1,8 +1,17 @@
+#' Read big memory descriptor file
+#' 
+#' @param basename basename of the file 
+#' 
+#' @details Creates a mmatrix by reading a 'bigmemory' descriptor file.
+#' The descriptor file name is obtained by appending ".desc" to the basename.
+#' 
+#' @seealso \link{add.descriptor.file}
+#' 
 #' @export
-read.mmatrix <- function(basename) {
+read.descriptor <- function(basename) {
     desc <- path.expand(paste0(basename, ".desc"))
     if(!file.exists(basename)) stop("file ", basename, " not found")
-    if(!file.exists(desc)) stop("file ", bdesc, " not found")
+    if(!file.exists(desc)) stop("file ", desc, " not found")
 
     z <- scan(desc, character(), Inf, quote = "", quiet = TRUE)
     parsed_desc <- eval(parse(text = paste( c( "(", z[ -(1:3) ] ), collapse = " " )))

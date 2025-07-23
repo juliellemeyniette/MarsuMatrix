@@ -186,8 +186,30 @@ template <typename T>
 std::string MMatrix<T>::getVerbosout() const {
     return verbosout_.str();
 }
-// no setters, but I don't really see the need...
 
+
+// Setter for dimension
+template <typename T>
+template <typename intVec>
+void MMatrix<T>::setDim(intVec newdims) {
+  // check if new dimensions are compatible with file size
+  size_t size = 1;
+  for (size_t d : newdims) {
+    size *= d;
+  }
+  if(size != size_)  
+    throw std::runtime_error("Dimensions product does not match the size of object"); 
+  // resize !
+  dim_.clear();
+  for(size_t d : newdims) dim_.push_back(d);
+  if(dim_.size() == 2) {
+    nrow_ = dim_[0];
+    ncol_ = dim_[1];
+  } else {
+    nrow_ = 0;
+    ncol_ = 0;
+  }
+}
 
 // ----------------- operator [] --------------------------
 // Operator [] gives back the data at index, UNSAFE.
@@ -283,7 +305,20 @@ T &MMatrix<T>::at(const intVec & index) const {
     return data_ptr_[k];
 }
 
+// ------------------- copy values ---------------------
+template <typename T>
+template <typename Tvec>
+void MMatrix<T>::copy_values(Tvec & values) {
+  size_t vs = values.size();
+  for(size_t i = 0; i < size_; i++) {
+    if(i >= size_) throw std::out_of_range("Index out of range");
+    data_ptr_[i] = values[ i % vs ];
+  }
+}
+ 
+
 // ------------------- set values ---------------------
+// matrix
 template <typename T>
 template <typename intVec, typename Tvec>
 void MMatrix<T>::set_values_matrix(const intVec & I, const intVec & J, Tvec & values) {
@@ -293,13 +328,37 @@ void MMatrix<T>::set_values_matrix(const intVec & I, const intVec & J, Tvec & va
   size_t vs = values.size();
 
   size_t k = 0;
-  for(auto j : J) 
-    for(auto i : I)
-      data_ptr_[i + j*nrow_] = values[ (k++) % vs ];
+  for(size_t j : J) {
+    if(j >= ncol_) throw std::out_of_range("Index out of range");
+    size_t offset = j*nrow_;
+    for(size_t i : I) {
+      if(i >= nrow_) throw std::out_of_range("Index out of range");
+      data_ptr_[offset + i] = values[ (k++) % vs ];
+    }
+  }
+}
+
+// array
+template <typename T>
+template <typename intVec, typename Tvec>
+void MMatrix<T>::set_values_array(const std::vector<intVec> & I, Tvec & values) {
+  if(I.size() != dim_.size())
+    throw std::runtime_error("Bad number of dimensions");
+
+  size_t vs = values.size();
+
+  std::vector<size_t> ind;
+  indices(I, ind);
+  size_t k = 0;
+  for(size_t i : ind) {
+    if(i >= size_) throw std::out_of_range("Index out of range");
+    data_ptr_[i] = values[ (k++) % vs ];
+  }
 }
 
 
 // ------------------------ extractions ----------------------
+// vector
 template <typename T>
 template <typename intVec, typename targetVec>
 void MMatrix<T>::extract_vector(const intVec & I, targetVec & target) const {
@@ -307,10 +366,13 @@ void MMatrix<T>::extract_vector(const intVec & I, targetVec & target) const {
     throw std::runtime_error("Bad target size");
 
   size_t k = 0;
-  for(auto i : I) 
+  for(size_t i : I) {
+    if(i >= size_) throw std::out_of_range("Index out of range");
     target[k++] = data_ptr_[i];
+  }
 }
 
+// matrix
 template <typename T>
 template <typename intVec, typename targetVec>
 void MMatrix<T>::extract_matrix(const intVec & I, const intVec & J, targetVec & target) const {
@@ -326,6 +388,7 @@ void MMatrix<T>::extract_matrix(const intVec & I, const intVec & J, targetVec & 
        target[k++] = at(i,j);
 }
 
+// array
 template <typename T>
 template <typename intVec, typename targetVec>
 void MMatrix<T>::extract_array(const std::vector<intVec> & I, targetVec & target) const {
@@ -340,9 +403,41 @@ void MMatrix<T>::extract_array(const std::vector<intVec> & I, targetVec & target
   if(le != target.size())
     throw std::runtime_error("Bad target size");
 
-  // prepare offset values
+  std::vector<size_t> ind;
+  indices(I, ind);
+  size_t k = 0;
+  for(size_t i : ind) {
+    target[k++] = at(i);
+  }
+}
+
+// recursive function called by indices below
+// should I make this a member of the class? it has no true reason to be
+template <typename intVec>
+inline void __indices__(const std::vector<intVec> & I, const std::vector<size_t> & Le, size_t d, std::vector<size_t> & ind) {
+  if(I.size()-1 == d) {
+    for(auto i : I[d])
+      ind.push_back( i * Le[d]);
+    return;
+  }
+  std::vector<size_t> ind2;
+  __indices__(I, Le, d+1, ind2);
+  for(size_t i2 : ind2)
+    for(size_t i : I[d])
+      ind.push_back( i * Le[d] + i2 );
+}
+
+
+// helper function for extract_array and set_values_array 
+// compute the indices (in the array seen as a vector) of all
+// elements whose coordinates are given by I (typically I = [ 1:2, 2:3, 1:5 ] )
+template <typename T>
+template <typename intVec>
+void MMatrix<T>::indices(const std::vector<intVec> & I, std::vector<size_t> & ind) const {
+  // compute offset values
+  size_t D = I.size();
   std::vector<size_t> Le;
-  le = 1;
+  size_t le = 1;
   Le.push_back(le);
   for(size_t i = 0; i < D - 1; i++) {
     le *= dim_[i];
@@ -350,27 +445,59 @@ void MMatrix<T>::extract_array(const std::vector<intVec> & I, targetVec & target
   }
     
   // let's go
-  std::vector<size_t> ind;
-  indices(I, Le, 0, ind);
-  size_t k = 0;
-  for(size_t i : ind) {
-    target[k++] = at(i);
+  ind.clear();
+  __indices__(I, Le, 0, ind);
+}
+
+// ----------------- component wise arithmetic --------------
+template <typename T>
+template <typename Tvec>
+void MMatrix<T>::cw_sum(Tvec & e2) {
+  size_t vs = e2.size();
+  for(size_t i = 0; i < size_; i++) {
+    data_ptr_[i] += e2[ i % vs ];
   }
 }
 
 template <typename T>
-template <typename intVec>
-void MMatrix<T>::indices(const std::vector<intVec> & I, const std::vector<size_t> & Le, size_t d, std::vector<size_t> & ind) {
-  if(I.size()-1 == d) {
-    for(auto i : I[d])
-      ind.push_back( i * Le[d]);
-    return;
+template <typename Tvec>
+void MMatrix<T>::cw_minus(Tvec & e2) {
+  size_t vs = e2.size();
+  for(size_t i = 0; i < size_; i++) {
+    data_ptr_[i] -= e2[ i % vs ];
   }
-  std::vector<size_t> ind2;
-  indices(I, Le, d+1, ind2);
-  for(size_t i2 : ind2)
-    for(size_t i : I[d])
-      ind.push_back( i * Le[d] + i2 );
+}
+
+template <typename T>
+template <typename Tvec>
+void MMatrix<T>::cw_prod(Tvec & e2) {
+  size_t vs = e2.size();
+  for(size_t i = 0; i < size_; i++) {
+    data_ptr_[i] *= e2[ i % vs ];
+  }
+}
+
+template <typename T>
+template <typename Tvec>
+void MMatrix<T>::cw_div(Tvec & e2) {
+  size_t vs = e2.size();
+  for(size_t i = 0; i < size_; i++) {
+    data_ptr_[i] /= e2[ i % vs ];
+  }
+}
+
+template <typename T>
+void MMatrix<T>::cw_inverse() {
+  for(size_t i = 0; i < size_; i++) {
+    data_ptr_[i] = 1/data_ptr_[i];
+  }
+}
+
+template <typename T>
+void MMatrix<T>::cw_opposite() {
+  for(size_t i = 0; i < size_; i++) {
+    data_ptr_[i] = -data_ptr_[i];
+  }
 }
 
 // ------------------------------------------------------------

@@ -45,7 +45,7 @@ SEXP MMatrixToRMatrix(SEXP pM, std::string datatype) {
     }
     return R;
   } else if (datatype == "short") {
-    Rcpp::XPtr<MMatrix<short>> instanc(pM);
+    Rcpp::XPtr<MMatrix<int16_t>> instanc(pM);
     unsigned int ncol = instanc->ncol();
     unsigned int nrow = instanc->nrow();
     Rcpp::IntegerMatrix R(nrow, ncol);

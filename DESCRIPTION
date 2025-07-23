@@ -1,24 +1,20 @@
-Package: MarsuMatrix
+Package: houba
 Type: Package
-Title: Basic handling of multidimensional memory-mapped matrix
+Title: Manipulation of (large) memory-mapped objects (vectors, matrices and arrays)
 Version: 0.1.0
 Authors@R: c(
     person("Hervé", "Perdry", 
-    email = "herve.perdry@pourcompiler.com", 
+    email = "herve.perdry@universite-paris-saclay.fr",
     role = c("aut", "cre")),
     person("Juliette", "Meyniel",
-    email = "juliette.meyniel@pourcompiler.com", 
     role = "aut"))
-Description: Continuation of the MMatrix private package,
-    originally only a C++ library for making memory mapped templated matrix. 
-    MarsuMatrix is now a fully fleshed R package, with an R interface 
-    and a R class (mmatrix). Its goal is to use a file with memory mapping
-    to keep its data on disk, and read it 
-    as a basic Matrix (2 dims) 
-    or a R-style array (with multiple dimension)
-License: MIT (for mio I think)
+Maintainer: Hervé Perdry <herve.perdry@universite-paris-saclay.fr>
+Description: Manipulate data through memory-mapped files, as vectors, matrices or arrays.
+    Basic arithmetic functions are implemented, but currently no matrix arithmetic.
+    Can write and read descriptor files for compatibility with the "bigmemory" package.
+License: MIT + file LICENSE
 Encoding: UTF-8
-LazyData: true
+Depends: methods
 Imports: Rcpp (>= 1.0.11)
 LinkingTo: Rcpp
 RoxygenNote: 7.3.2

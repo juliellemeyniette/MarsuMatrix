@@ -1,4 +1,4 @@
-require(MarsuMatrix)
+require(houba)
 
 # float matrix
 A <- mmatrix("float", 10, 20)
@@ -44,6 +44,6 @@ C[2, ] <- 2
 C[3, ] <- 3
 add.descriptor.file(C)
 
-D <- read.mmatrix(C@file)
+D <- read.descriptor(C@file)
 stopifnot( all(as.matrix(C) == as.matrix(D)))
            
