@@ -1,4 +1,16 @@
 #' @rdname marray
+#' @description  The \code{mmatrix} function creates an object of class \link{mmatrix-class}, of
+#' indicated types and dimension.
+#' @details By default, the \code{mmatrix-class} is filled with 0.
+#' This function is kind of acting as a manual constructor for \code{mmatrix-class}.
+#' If you want to instanciate a \code{mmatrix-class} from a file, check \link{read.mmatrix}.
+#' @param type can be \code{double}, \code{float}, \code{int}, \code{short}
+#' @param nrow number of rows in the future 
+#' @param ncol number of columns
+#' @param filename (optional)
+#' the relative or absolute path to the file you want to store your \code{mmatrix-class}.
+#' If omitted, \link{tempfile} is used to generate a file name for a temporary file.
+#' @return the newly created \link{mmatrix-class}.
 #' @export
 mmatrix <- function(type = c("double", "float", "int", "short"), nrow, ncol, filename, readonly) {
   type <- match.arg(type)

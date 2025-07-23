@@ -6,6 +6,7 @@
 \title{Class \code{"mmatrix"}}
 \description{
 S4 class for manipulating memory-mapped files as matrices
+
 }
 \section{Slots}{
 
@@ -19,6 +20,7 @@ S4 class for manipulating memory-mapped files as matrices
 \item{\code{datatype}}{\code{character} giving the C++ underlying datatype.}
 
 \item{\code{readonly}}{\code{logical} Indicates if the array if read-only.}
+
 }}
 
 \section{Objects from the Class}{

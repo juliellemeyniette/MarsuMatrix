@@ -1,6 +1,5 @@
 #include "MMatrix_methods.h"
 #include <iostream>
-#include <cstdint> // for int16_t
 #include <Rcpp.h>
 
 // ici values est un R vector
