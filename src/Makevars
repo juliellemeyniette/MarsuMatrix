@@ -1,5 +1,1 @@
-CXX_STD = CXX11 
-PKG_CPPFLAGS += -I ../inst/include/ -O0 $(SHLIB_OPENMP_CFLAGS)
-CXX11FLAGS += -O0 -Wall
-PKG_LIBS = $(SHLIB_OPENMP_CFLAGS) -O0 -ggdb
-
+PKG_CPPFLAGS = -I ../inst/include/ -Wall

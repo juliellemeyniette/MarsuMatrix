@@ -1,3 +1,5 @@
-#' @useDynLib MarsuMatrix, .registration=TRUE
+#' @useDynLib houba, .registration=TRUE
 #' @importFrom Rcpp evalCpp
+#' @importFrom methods is new
+
 NULL
